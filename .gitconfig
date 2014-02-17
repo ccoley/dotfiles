@@ -1,0 +1,7 @@
+[user]
+	name = ccoley
+
+[push]
+    default = simple
+[alias]
+    stat = status
