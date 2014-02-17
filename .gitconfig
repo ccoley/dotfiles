@@ -1,0 +1,7 @@
+[user]
+	name = ccoley
+	email = chris.num2@gmail.com
+[push]
+    default = simple
+[alias]
+    stat = status
