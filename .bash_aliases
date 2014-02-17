@@ -10,7 +10,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-alias -- -='cd -' # Back to last working directory
+alias -- --='cd -' # Back to last working directory
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
@@ -27,7 +27,7 @@ alias nowdate='date +%m-%d-%Y'
 alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # Enable aliases to be sudo'ed
-alias sudo_='sudo '
+alias sudo='sudo '
 
 # Confirm before overwrite
 alias mv='mv -i'
