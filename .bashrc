@@ -107,3 +107,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# Handy dandy function to count files in a directory and its subdirectories
+function count {
+    find $1 -type f | wc -l
+}
