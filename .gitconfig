@@ -2,7 +2,7 @@
 	name = ccoley
 
 [push]
-    default = simple
+	default = simple
 [alias]
 	alias = config --get-regexp ^alias\\.
 	stat = status
