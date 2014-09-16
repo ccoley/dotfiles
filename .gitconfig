@@ -3,10 +3,10 @@
 	email = chris.num2@gmail.com
 [push]
 	default = simple
+[credential]
+	helper = cache --timeout=43200
 [alias]
 	alias = config --get-regexp ^alias\\.
 	stat = status
-	unstage = reset HEAD --
 	last = log -1 HEAD
-[credential]
-	helper = cache --timeout=43200
+	unstage = reset HEAD --
