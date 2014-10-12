@@ -1,0 +1,53 @@
+/* Dark Purple:     #371E4D     rgb(55,30,77) */
+/* Medium Purple:   #603588     rgb(96,53,136) */
+/* Light Purple:    #894CC3     rgb(137,76,195) */
+/* Light Orange:    #FFB000     rgb(255,176,0) */
+
+body {
+    background: url("../images/bg_circles.jpg") repeat;
+}
+
+.white-text {
+    color: #f8f8f8;
+}
+
+.container {
+    max-width: 970px;
+    /*max-width: 1485px;*/
+}
+
+.post-box {
+    margin-bottom: 15px;
+    padding: 15px 0;
+    background-color: #f8f8f8;
+}
+
+.post-img img {
+    /*display: block;*/
+    margin: auto;
+}
+
+.post-profile-img {
+    height: 56px;
+    width: 56px;
+    border: 2px solid #999;
+    border-radius: 4px;
+}
+
+.post-img, .post-right-side {
+    padding: 0 7px;
+}
+
+.panel {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.comments-box {
+    /*float: left;*/
+    padding-left: 64px;
+}
+
+.owner-name {
+    font-weight: bold;
+}
