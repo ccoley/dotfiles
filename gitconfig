@@ -1,0 +1,12 @@
+[user]
+    name = ccoley
+    email = chris.num2@gmail.com
+[push]
+    default = simple
+[credential]
+    helper = cache --timeout=43200
+[alias]
+    alias = config --get-regexp ^alias\\.
+    stat = status
+    last = log -1 HEAD
+    unstage = reset HEAD --
