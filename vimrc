@@ -19,7 +19,8 @@ set formatoptions+=ro   " Automatically insert the comment character when you
 
 " Tab options
 set expandtab           " Soft tabs, changes tabs to spaces
-set softtabstop=4       " Number of spaces in a tab
+set tabstop=4           " Number of spaces in a tab
+set softtabstop=4       " Number of spaces in a soft tab
 set shiftwidth=4        " Number of spaces in an indentation level.
 
 
@@ -56,6 +57,7 @@ autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname(
 
 
 " Filetype specific indentation
-filetype plugin indent on
-autocmd FileType html setlocal shiftwidth=2 softtabstop=2   " HTML
+"filetype plugin indent on
+"autocmd FileType html setlocal shiftwidth=2 softtabstop=2   " HTML
+"autocmd FileType php setlocal shiftwidth=4 softtabstop=4    " PHP
 
