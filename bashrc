@@ -95,9 +95,9 @@ fi
 #fi
 
 # Enable local bashrc files to overwrite this file
-#if [ -f ~/.bashrc.local ]; then
-#    . ~/.bashrc.local
-#fi
+if [ -f ~/.bashrc.local ]; then
+    . ~/.bashrc.local
+fi
 
 # Enable Git auto completion
 if [ -f ~/git-completion.bash ]; then
