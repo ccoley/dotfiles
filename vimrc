@@ -16,9 +16,13 @@ set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
 
+" Show invisible characters with `:set list!` or <F10>
+set nolist
+set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
+noremap <F10> :set list!<CR>
 
 " Tab options
-set expandtab           " Soft tabs, changes tabs to spaces
+"set expandtab           " Soft tabs, changes tabs to spaces
 set tabstop=4           " Number of spaces in a tab
 set softtabstop=4       " Number of spaces in a soft tab
 set shiftwidth=4        " Number of spaces in an indentation level.
