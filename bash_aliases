@@ -4,9 +4,10 @@
 #################
 
 # some ls aliases
+alias l='ls -CF'
 alias ll='ls -alF'
 alias la='ls -A'
-alias l='ls -CF'
+alias lh='ls -alFh'
 
 # Easier navigation
 alias ..='cd ..'
