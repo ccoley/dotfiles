@@ -1,6 +1,7 @@
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\Solarized%20Dark]
+; Set the color scheme to Solarized Dark
 "Colour0"="131,148,150"
 "Colour1"="147,161,161"
 "Colour2"="0,43,54"
@@ -23,3 +24,6 @@ Windows Registry Editor Version 5.00
 "Colour19"="147,161,161"
 "Colour20"="238,232,213"
 "Colour21"="253,246,227"
+
+; Enable numpad in Vim by disabling "Application Keypad Mode"
+"NoApplicationKeys"=dword:00000001
