@@ -49,21 +49,12 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-# Enable Git prompt
-GIT_PS1_SHOWDIRTYSTATE=yes
-GIT_PS1_SHOWCOLORHINTS=yes
-GIT_PS1_HIDE_IF_PWD_IGNORED=yes
-if [ -f ~/.git-prompt.sh ]; then
-	source ~/.git-prompt.sh
-fi
-
 if [ "$color_prompt" = yes ] && [ "`id -u`" -eq 0 ]; then
     # Red prompt for root
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[31m\][\w]\[\033[00m\] \$ '
+    PS1='${debian_chroot:+($debian_chroot)}\h:\[\033[31m\][\w]\[\033[00m\] \$ '
 else
     # Default prompt for everyone else
-    #PS1='${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\] \$ '
-	PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+    PS1='${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\] \$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -108,7 +99,3 @@ if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
 fi
 
-# Enable Git auto completion
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
-fi
