@@ -58,6 +58,7 @@ autocmd BufNewFile,BufRead [Mm]akefile* setlocal noexpandtab
 
 " Set the terminal title to reflect the open file. Even works with Vim tabs.
 autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname() | set title
+autocmd VimLeave * let &titleold = $USER . "@" . hostname() | set title
 
 
 " Filetype specific indentation
