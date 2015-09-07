@@ -57,3 +57,11 @@ else mv ~/.git-completion.bash{,.old} 2> /dev/null
 fi
 ln -s $DOTFILES/git-completion.bash ~/.git-completion.bash
 
+if [ -h ~/.git-prompt.sh ]
+then rm ~/.git-prompt.sh
+else mv ~/.git-prompt.sh{,.old} 2> /dev/null
+fi
+ln -s $DOTFILES/git-prompt.sh ~/.git-prompt.sh
+
+
+
