@@ -27,3 +27,6 @@ Windows Registry Editor Version 5.00
 
 ; Enable numpad in Vim by disabling "Application Keypad Mode"
 "NoApplicationKeys"=dword:00000001
+
+; Tell Putty to use UTF-8 as the remote character set
+"LineCodePage"="UTF-8"
