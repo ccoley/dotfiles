@@ -3,24 +3,57 @@
 # Run this from the dotfiles dir
 DOTFILES=`pwd`
 
+
+
 # bash
-mv ~/.bashrc ~/.bashrc.local 2> /dev/null
-mv ~/.bash_aliases ~/.bash_aliases.old 2> /dev/null
+if [ -h ~/.bashrc ]
+then rm ~/.bashrc
+else mv ~/.bashrc{,.old} 2> /dev/null
+fi
 ln -s $DOTFILES/bashrc ~/.bashrc
+
+if [ -h ~/.bash_aliases ]
+then rm ~/.bash_aliases
+else mv ~/.bash_aliases{,.old} 2> /dev/null
+fi
 ln -s $DOTFILES/bash_aliases ~/.bash_aliases
 
+
+
 # vim
-mv ~/.vimrc ~/.vimrc.old 2> /dev/null
-mv ~/.vim ~/.vim.old 2> /dev/null
+if [ -h ~/.vimrc ]
+then rm ~/.vimrc
+else mv ~/.vimrc{,.old} 2> /dev/null
+fi
 ln -s $DOTFILES/vimrc ~/.vimrc
+
+if [ -h ~/.vim ]
+then rm ~/.vim
+else mv ~/.vim{,.old} 2> /dev/null
+fi
 ln -s $DOTFILES/vim ~/.vim
 
+
+
 # dircolors
-mv ~/.dircolors ~/.dircolors.old 2> /dev/null
+if [ -h ~/.dircolors ]
+then rm ~/.dircolors
+else mv ~/.dircolors{,.old} 2> /dev/null
+fi
 ln -s $DOTFILES/dircolors.ansi-dark ~/.dircolors
 
+
+
 # Git
-mv ~/.gitconfig ~/.gitconfig.old 2> /dev/null
-mv ~/git-completion.bash ~/git-completion.bash.old 2> /dev/null
+if [ -h ~/.gitconfig ]
+then rm ~/.gitconfig
+else mv ~/.gitconfig{,.old} 2> /dev/null
+fi
 ln -s $DOTFILES/gitconfig ~/.gitconfig
-ln -s $DOTFILES/git-completion.bash ~/git-completion.bash
+
+if [ -h ~/.git-completion.bash ]
+then rm ~/.git-completion.bash
+else mv ~/.git-completion.bash{,.old} 2> /dev/null
+fi
+ln -s $DOTFILES/git-completion.bash ~/.git-completion.bash
+
