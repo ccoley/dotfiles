@@ -14,9 +14,9 @@ fi
 
 # Enable Git prompt
 if [ -f ~/.git-prompt.sh ]; then
-	GIT_PS1_SHOWDIRTYSTATE=yes
-	GIT_PS1_SHOWCOLORHINTS=yes
-	GIT_PS1_HIDE_IF_PWD_IGNORED=yes
+    GIT_PS1_SHOWDIRTYSTATE=yes
+    GIT_PS1_SHOWCOLORHINTS=yes
+    GIT_PS1_HIDE_IF_PWD_IGNORED=yes
     source ~/.git-prompt.sh
 fi
 
