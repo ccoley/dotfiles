@@ -100,6 +100,6 @@ if [ -f ~/.bashrc.local ]; then
 fi
 
 # Enable Git auto completion
-if [ -f ~/git-completion.bash ]; then
-    . ~/git-completion.bash
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
 fi
