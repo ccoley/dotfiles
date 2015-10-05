@@ -52,7 +52,7 @@ alias wget='wget -c'
 alias dume='du -h --exclude="*.git*" | sort -h'
 
 # Make free output more human friendly
-alias free='free -mt'
+alias free='free -ht'
 
 ###################
 #    Functions    #
