@@ -59,19 +59,19 @@ alias free='free -ht'
 ###################
 
 # Count the number of files in a directory and its sub-directories
-alias count='count # Count the number of files in a directory and its sub-directories'
+alias count='count' # Count the number of files in a directory and its sub-directories
 function count {
     find $1 -type f | wc -l
 }
 
 # Show a histogram output of commands in history
-alias hist='hist # Show a histogram output of commands in history'
+alias hist='hist' # Show a histogram output of commands in history
 function hist {
     history | awk '{print $2}' | sort -n | uniq -c | sort -n | tail
 }
 
 # Make a directory, then cd into it
-alias mcd='mcd # Make a directory, then cd into it'
+alias mcd='mcd' # Make a directory, then cd into it
 function mcd {
     mkdir -pv $1
     cd $1
@@ -79,7 +79,7 @@ function mcd {
 }
 
 # Print a color chart
-alias color='color # Print a color chart'
+alias color='color' # Print a color chart
 function color {
     for x in 0 1 4 5 7 8; do
 		for i in `seq 30 37`; do
