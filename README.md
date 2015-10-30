@@ -16,6 +16,7 @@ To update your dotfiles, all you have to do is pull the latest revision of the r
 
 This repository also include several files/directories that are not installed and exist only for my convenience.
 
-- `example-files/` is a directory of many different files types. It is useful when testing out a new syntax highlighting theme.
-- `test-directory.tar.bz2` is a directory of all the different types of files, directories, and symlinks. It is useful when testing out a new `.dircolors` file.
 - `ssh/` contains the public ssh keys for some of my computers.
+- `examples.tar.gz` contains the following 2 directories:
+  - `example-files/` is a directory of many different files types. It is useful when testing out a new syntax highlighting theme.
+  - `test-directory.tar.bz2` is a directory of all the different types of files, directories, and symlinks. It is useful when testing out a new `.dircolors` file.
