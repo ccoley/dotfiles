@@ -27,6 +27,7 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 alias now='date +%T'
 alias nowtime=now
 alias nowdate='date +%m-%d-%Y'
+alias timezone='date +"%Z (GMT %:z)"'
 
 # Get week number
 alias week='date +%V'
