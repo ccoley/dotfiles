@@ -90,5 +90,5 @@ function color {
 			echo;
 		done;
     done;
-    echo "";
+    echo -e "\e[0m";
 }
