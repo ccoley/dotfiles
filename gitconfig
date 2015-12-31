@@ -13,4 +13,4 @@
 [core]
     #autocrlf = true  # Windows
     autocrlf = input # Linux
-	editor = vim
+    editor = vim
