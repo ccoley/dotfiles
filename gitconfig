@@ -1,6 +1,6 @@
 [user]
-    name = ccoley
-    email = chris.num2@gmail.com
+    name = "Chris Coley"
+    email = chris@codingallnight.com
 [push]
     default = simple
 [credential]
@@ -13,3 +13,4 @@
 [core]
     #autocrlf = true  # Windows
     autocrlf = input # Linux
+	editor = vim
