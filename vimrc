@@ -21,6 +21,11 @@ set nolist
 set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
 noremap <F10> :set list!<CR>
 
+
+" Allow saving of files as sudo when I forgot to start vim using sudo
+cmap w!! q !sudo tee > /dev/null %
+
+
 " Tab options
 set expandtab           " Soft tabs, changes tabs to spaces
 set tabstop=4           " Number of spaces in a tab
