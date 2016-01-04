@@ -22,7 +22,7 @@ set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
 noremap <F10> :set list!<CR>
 
 " Tab options
-"set expandtab           " Soft tabs, changes tabs to spaces
+set expandtab           " Soft tabs, changes tabs to spaces
 set tabstop=4           " Number of spaces in a tab
 set softtabstop=4       " Number of spaces in a soft tab
 set shiftwidth=4        " Number of spaces in an indentation level.
