@@ -2,28 +2,28 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\Solarized%20Black]
 ; Set the color scheme to a modified version of Solarized Dark
-"Colour0"="131,148,150"
-"Colour1"="147,161,161"
-"Colour2"="24,24,24"
-"Colour3"="35,35,35"
-"Colour4"="0,43,54"
-"Colour5"="238,232,213"
-"Colour6"="24,24,24"
-"Colour7"="35,35,35"
-"Colour8"="220,50,47"
-"Colour9"="203,75,22"
-"Colour10"="133,153,0"
-"Colour11"="88,110,117"
-"Colour12"="181,137,0"
-"Colour13"="101,123,131"
-"Colour14"="38,139,210"
-"Colour15"="131,148,150"
-"Colour16"="211,54,130"
-"Colour17"="108,113,196"
-"Colour18"="42,161,152"
-"Colour19"="147,161,161"
-"Colour20"="238,232,213"
-"Colour21"="253,246,227"
+"Colour0"="131,148,150"  ; Default Foreground
+"Colour1"="147,161,161"  ; Default Bold Foreground
+"Colour2"="24,24,24"     ; Default Background
+"Colour3"="35,35,35"     ; Default Bold Background
+"Colour4"="0,43,54"      ; Cursor Text
+"Colour5"="238,232,213"  ; Cursor Color
+"Colour6"="24,24,24"     ; ANSI Black
+"Colour7"="35,35,35"     ; ANSI Black Bold
+"Colour8"="220,50,47"    ; ANSI Red
+"Colour9"="203,75,22"    ; ANSI Red Bold
+"Colour10"="133,153,0"   ; ANSI Green
+"Colour11"="88,110,117"  ; ANSI Green Bold
+"Colour12"="181,137,0"   ; ANSI Yellow
+"Colour13"="101,123,131" ; ANSI Yellow Bold
+"Colour14"="38,139,210"  ; ANSI Blue
+"Colour15"="131,148,150" ; ANSI Blue Bold
+"Colour16"="211,54,130"  ; ANSI Magenta
+"Colour17"="108,113,196" ; ANSI Magenta Bold
+"Colour18"="42,161,152"  ; ANSI Cyan
+"Colour19"="147,161,161" ; ANSI Cyan Bold
+"Colour20"="238,232,213" ; ANSI White
+"Colour21"="253,246,227" ; ANSI White Bold
 
 ; Enable numpad in Vim by disabling "Application Keypad Mode"
 "NoApplicationKeys"=dword:00000001
