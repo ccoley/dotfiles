@@ -1,18 +1,11 @@
 
-# VirtualEnv Wrapper
-export WORKON_HOME=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
-
-# AutoENV
-AUTOENV_ENV_FILENAME=.autoenv
-source ~/.autoenv/activate.sh
-
 # Enable Git auto completion
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
 # Enable Git prompt
+# This may cause slowdown in shared filesystems with slow IO
 if [ -f ~/.git-prompt.sh ]; then
     GIT_PS1_SHOWDIRTYSTATE=yes
     GIT_PS1_SHOWCOLORHINTS=yes
@@ -20,24 +13,34 @@ if [ -f ~/.git-prompt.sh ]; then
     source ~/.git-prompt.sh
 fi
 
+PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+
+# VirtualEnv Wrapper
+#export WORKON_HOME=~/.virtualenvs
+#source /usr/local/bin/virtualenvwrapper.sh
+
+# AutoENV
+#AUTOENV_ENV_FILENAME=.autoenv
+#source ~/.autoenv/activate.sh
+
 # Override prompt to include virtualenv name and git branch name
-add_venv_info () {
-    if [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ] ; then
-        VIRT_ENV_TXT=""
-        if [ "x" != x ] ; then
-            VIRT_ENV_TXT=""
-        else
-            if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
-                # special case for Aspen magic directories
-                # see http://www.zetadev.com/software/aspen/
-                VIRT_ENV_TXT="[`basename \`dirname \"$VIRTUAL_ENV\"\``]"
-            elif [ "$VIRTUAL_ENV" != "" ]; then
-                VIRT_ENV_TXT="(`basename \"$VIRTUAL_ENV\"`)"
-            fi
-        fi
-        if [ "${VIRT_ENV_TXT}" != "" ]; then
-            echo ${VIRT_ENV_TXT}" "
-        fi
-    fi
-}
-PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}$(add_venv_info)\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+#add_venv_info () {
+#    if [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ] ; then
+#        VIRT_ENV_TXT=""
+#        if [ "x" != x ] ; then
+#            VIRT_ENV_TXT=""
+#        else
+#            if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
+#                # special case for Aspen magic directories
+#                # see http://www.zetadev.com/software/aspen/
+#                VIRT_ENV_TXT="[`basename \`dirname \"$VIRTUAL_ENV\"\``]"
+#            elif [ "$VIRTUAL_ENV" != "" ]; then
+#                VIRT_ENV_TXT="(`basename \"$VIRTUAL_ENV\"`)"
+#            fi
+#        fi
+#        if [ "${VIRT_ENV_TXT}" != "" ]; then
+#            echo ${VIRT_ENV_TXT}" "
+#        fi
+#    fi
+#}
+#PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}$(add_venv_info)\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
