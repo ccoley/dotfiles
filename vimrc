@@ -16,15 +16,6 @@ set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
 
-" Show invisible characters with `:set list!` or <F10>
-set nolist
-set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
-noremap <F10> :set list!<CR>
-
-
-" Allow saving of files as sudo when I forgot to start vim using sudo
-cmap w!! q !sudo tee > /dev/null %
-
 
 " Tab options
 set expandtab           " Soft tabs, changes tabs to spaces
@@ -33,17 +24,40 @@ set softtabstop=4       " Number of spaces in a soft tab
 set shiftwidth=4        " Number of spaces in an indentation level.
 
 
-" Use solarized colorscheme
-set background=dark
-colorscheme solarized
-
-
 " Searching options
 set nowrapscan          " Do not wrap to the top of the file while searching
 set ignorecase          " Case insensitive searching
 set smartcase           " Except when the query includes an uppercase character
 set incsearch           " Begin matching query as you type it
 set hlsearch            " Highlight search matches
+
+
+" Use solarized colorscheme
+set background=dark
+colorscheme solarized
+
+
+" Allow saving of files as sudo when I forget to start vim using sudo
+cmap w!! q !sudo tee > /dev/null %
+
+
+" Show invisible characters with `:set list!` or <F10>
+set nolist
+set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
+noremap <F10> :set list!<CR>
+
+
+" Filetype specific indentation
+" Put a vertical ruler in columns 81 and 121
+highlight ColorColumn ctermbg=magenta
+noremap <F9> :call ToggleColorColumn()<CR>
+function! ToggleColorColumn()
+    if &colorcolumn
+        setlocal colorcolumn&
+    else
+        setlocal colorcolumn=81,121
+    endif
+endfunction
 
 
 " Code folding
@@ -56,17 +70,11 @@ set hlsearch            " Highlight search matches
 autocmd BufNewFile,BufRead [Mm]akefile* setlocal noexpandtab
 
 
-" Put a vertical ruler in column 81
-"highlight ColorColumn ctermbg=White
-"set colorcolumn=81
-
-
 " Set the terminal title to reflect the open file. Even works with Vim tabs.
 autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname() | set title
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | set title
 
 
-" Filetype specific indentation
 "filetype plugin indent on
 "autocmd FileType html setlocal shiftwidth=2 softtabstop=2   " HTML
 "autocmd FileType php setlocal shiftwidth=4 softtabstop=4    " PHP
