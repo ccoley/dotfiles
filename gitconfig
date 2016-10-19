@@ -5,12 +5,16 @@
     default = simple
 [credential]
     helper = cache --timeout=43200
+[core]
+    #autocrlf = true  # Windows
+    autocrlf = input # Linux
+    editor = vim
 [alias]
     alias = config --get-regexp ^alias\\.
     stat = status
     last = log -1 HEAD
     unstage = reset HEAD --
-[core]
-    #autocrlf = true  # Windows
-    autocrlf = input # Linux
-    editor = vim
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    ll = log --pretty=format:'%C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]' --decorate --numstat
+
+# vim: set ft=gitconfig: 
