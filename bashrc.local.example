@@ -1,4 +1,3 @@
-
 # Enable Git auto completion
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
@@ -6,12 +5,12 @@ fi
 
 # Enable Git prompt
 # This may cause slowdown in shared filesystems with slow IO
-if [ -f ~/.git-prompt.sh ]; then
-    GIT_PS1_SHOWDIRTYSTATE=yes
-    GIT_PS1_SHOWCOLORHINTS=yes
-    GIT_PS1_HIDE_IF_PWD_IGNORED=yes
-    source ~/.git-prompt.sh
-fi
+#if [ -f ~/.git-prompt.sh ]; then
+#    GIT_PS1_SHOWDIRTYSTATE=yes
+#    GIT_PS1_SHOWCOLORHINTS=yes
+#    GIT_PS1_HIDE_IF_PWD_IGNORED=yes
+#    source ~/.git-prompt.sh
+#fi
 
 PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
 
