@@ -13,6 +13,7 @@
     alias = config --get-regexp ^alias\\.
     stat = status
     last = show --name-status HEAD
+    changed = show --name-status
     unstage = reset HEAD --
     ll = log --pretty=format:'%C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]' --decorate --numstat
     lg = log --color --graph --date=short --abbrev-commit --pretty=format:'%C(red)%h%Creset - %C(green)%cd%Creset |%C(auto)%d%Creset %s %C(yellow)<%an>%Creset'
