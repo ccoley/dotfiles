@@ -9,6 +9,8 @@
     #autocrlf = true  # Windows
     autocrlf = input # Linux
     editor = vim
+[diff]
+    compactionHeuristic = true
 [alias]
     alias = config --get-regexp ^alias\\.
     stat = status
