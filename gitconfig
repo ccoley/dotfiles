@@ -3,6 +3,8 @@
     email = chris@codingallnight.com
 [push]
     default = simple
+[merge]
+    log = 20
 [credential]
     helper = cache --timeout=43200
 [core]
@@ -11,6 +13,7 @@
     editor = vim
 [diff]
     compactionHeuristic = true
+    algorithm = patience
 [alias]
     alias = config --get-regexp ^alias\\.
     stat = status
