@@ -1,16 +1,16 @@
-[user]
-    name = "Chris Coley"
-    email = chris@codingallnight.com
-[push]
-    default = simple
-[merge]
-    log = 50
-[credential]
-    helper = cache --timeout=43200
 [core]
     #autocrlf = true  # Windows
     autocrlf = input # Linux
     editor = vim
+[user]
+    name = "Chris Coley"
+    email = chris@codingallnight.com
+[credential]
+    helper = cache --timeout=43200
+[push]
+    default = simple
+[merge]
+    log = 50
 [diff]
     compactionHeuristic = true
     algorithm = patience
