@@ -32,6 +32,11 @@ set incsearch           " Begin matching query as you type it
 set hlsearch            " Highlight search matches
 
 
+" Code folding
+"set foldmethod=indent
+"set foldenable
+
+
 " Use solarized colorscheme
 set background=dark
 colorscheme solarized
@@ -47,7 +52,6 @@ set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
 noremap <F10> :set list!<CR>
 
 
-" Filetype specific indentation
 " Put a vertical ruler in columns 81 and 121
 highlight ColorColumn ctermbg=magenta
 noremap <F9> :call ToggleColorColumn()<CR>
@@ -60,11 +64,6 @@ function! ToggleColorColumn()
 endfunction
 
 
-" Code folding
-"set foldmethod=indent
-"set foldenable
-
-
 " Make vim turn *off* expandtab for files named Makefile or makefile
 " We need the tab literal
 autocmd BufNewFile,BufRead [Mm]akefile* setlocal noexpandtab
@@ -75,9 +74,11 @@ autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname(
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | set title
 
 
+" Filetype specific indentation
 "filetype plugin indent on
 "autocmd FileType html setlocal shiftwidth=2 softtabstop=2   " HTML
 "autocmd FileType php setlocal shiftwidth=4 softtabstop=4    " PHP
+
 
 " Map numpad keys in insert and command-line mode
 "noremap! <Esc>Oq 1
@@ -96,6 +97,7 @@ autocmd VimLeave * let &titleold = $USER . "@" . hostname() | set title
 "noremap! <Esc>Ol +
 "noremap! <Esc>OS -
 "noremap! <Esc>OM <Enter>
+
 
 " Map numpad keys in all other modes
 "noremap <Esc>Oq 1
