@@ -4,13 +4,19 @@
 -- Autocomplete keywords to uppercase
 \set COMP_KEYWORD_CASE upper
 
+-- Verbose error reports
+\set VERBOSITY verbose
+
 -- Create a separate history file for each database
-\set HISTFILE ~/.psql_history-:DBNAME
+\set HISTFILE ~/.psql_history- :DBNAME
 
--- Ignore duplicate history entries
-\set HISTCONTROL ignoredups
+-- Ignore duplicate history entries, and lines starting with a space
+\set HISTCONTROL ignoreboth
 
--- Force NULL to display as a character instead of empty
+-- Keep 2000 commands in history
+\set HISTSIZE 2000
+
+-- Force NULL to display as an ASCII 207 character instead of an empty space
 \pset null ¤
 
 -- Show how long each query takes to execute
@@ -19,9 +25,14 @@
 -- Use horizontal/vertical column output based on content
 \x auto
 
-\unset QUIET
-
 -- Useful aliases
 \set version 'SELECT version();'
 \set extensions 'SELECT * FROM pg_available_extensions;'
 \set whoami 'SELECT CURRENT_USER;'
+
+\unset QUIET
+
+\echo '\nPSQL resource file loaded.'
+\echo 'NULL is displayed as "¤".'
+\echo 'Type :version to see the PostgreSQL version.'
+\echo 'Type :extensions to see the available extensions.\n'
