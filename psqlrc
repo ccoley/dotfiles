@@ -25,6 +25,10 @@
 -- Use horizontal/vertical column output based on content
 \x auto
 
+-- Set the prompt
+\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%#%x '
+\set PROMPT2 '[more] %R%# '
+
 -- Useful aliases
 \set version 'SELECT version();'
 \set extensions 'SELECT * FROM pg_available_extensions;'
@@ -32,7 +36,7 @@
 
 \unset QUIET
 
-\echo '\nPSQL resource file loaded.'
+\echo 'PSQL resource file loaded.'
 \echo 'NULL is displayed as "¤".'
 \echo 'Type :version to see the PostgreSQL version.'
 \echo 'Type :extensions to see the available extensions.\n'
