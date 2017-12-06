@@ -65,3 +65,9 @@ ln -s $DOTFILES/git-prompt.sh ~/.git-prompt.sh
 
 
 
+# PostgreSQL
+if [ -h ~/.psqlrc ]
+then rm ~/.psqlrc
+else mv ~/.psqlrc{,.old} 2> /dev/null
+fi
+ln -s $DOTFILES/psqlrc ~/.psqlrc

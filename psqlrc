@@ -1,0 +1,27 @@
+-- Don't show the contents of this file on psql startup
+\set QUIET 1
+
+-- Autocomplete keywords to uppercase
+\set COMP_KEYWORD_CASE upper
+
+-- Create a separate history file for each database
+\set HISTFILE ~/.psql_history-:DBNAME
+
+-- Ignore duplicate history entries
+\set HISTCONTROL ignoredups
+
+-- Force NULL to display as a character instead of empty
+\pset null ¤
+
+-- Show how long each query takes to execute
+\timing on
+
+-- Use horizontal/vertical column output based on content
+\x auto
+
+\unset QUIET
+
+-- Useful aliases
+\set version 'SELECT version();'
+\set extensions 'SELECT * FROM pg_available_extensions;'
+\set whoami 'SELECT CURRENT_USER;'
