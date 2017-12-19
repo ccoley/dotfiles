@@ -67,7 +67,7 @@ function count {
 # Show a histogram output of commands in history
 alias _hist='echo "hist(): Show a histogram output of commands in history"'
 function hist {
-    history | awk '{print $2}' | sort -n | uniq -c | sort -n | tail
+    history | awk '{if ($2 == "sudo") {print $2,$3} else {print $2}}' | sort -n | uniq -c | sort -nr | head -n20
 }
 
 # Make a directory, then cd into it
