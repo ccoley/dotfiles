@@ -42,8 +42,8 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
 
-# Make parent directories with mkdir
-alias mkdir='mkdir -pv'
+# Make mkdir verbose
+alias mkdir='mkdir -v'
 
 # Continue downloads in case of problems
 alias wget='wget -c'
