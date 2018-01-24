@@ -14,32 +14,43 @@ fi
 
 PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
 
-# VirtualEnv Wrapper
-#export WORKON_HOME=~/.virtualenvs
-#source /usr/local/bin/virtualenvwrapper.sh
+if [ -d $HOME/.virtualenvs ] && [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    # If virtualenv was installed with python3, then we can assume that
+    # virtualenvwrapper should be using python3 as well.
+    if [ -x "$(command -v python3)" ]; then
+        python3_version=$(python3 --version | sed -n 's/Python \([0-9]\.[0-9]\).*/\1/p')
+        if [ -f /usr/local/lib/python${python3_version}/dist-packages/virtualenv.py ]; then
+            export VIRTUALENVWRAPPER_PYTHON="$(command -v python3)"
+        fi
+    fi
 
-# AutoENV
-#AUTOENV_ENV_FILENAME=.autoenv
-#source ~/.autoenv/activate.sh
+    # VirtualEnv Wrapper
+    export WORKON_HOME=$HOME/.virtualenvs
+    source /usr/local/bin/virtualenvwrapper.sh
 
-# Override prompt to include virtualenv name and git branch name
-#add_venv_info () {
-#    if [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ] ; then
-#        VIRT_ENV_TXT=""
-#        if [ "x" != x ] ; then
-#            VIRT_ENV_TXT=""
-#        else
-#            if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
-#                # special case for Aspen magic directories
-#                # see http://www.zetadev.com/software/aspen/
-#                VIRT_ENV_TXT="[`basename \`dirname \"$VIRTUAL_ENV\"\``]"
-#            elif [ "$VIRTUAL_ENV" != "" ]; then
-#                VIRT_ENV_TXT="(`basename \"$VIRTUAL_ENV\"`)"
-#            fi
-#        fi
-#        if [ "${VIRT_ENV_TXT}" != "" ]; then
-#            echo ${VIRT_ENV_TXT}" "
-#        fi
-#    fi
-#}
-#PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}$(add_venv_info)\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+    # AutoENV
+    #AUTOENV_ENV_FILENAME=.autoenv
+    #source ~/.autoenv/activate.sh
+
+    # Override prompt to include virtualenv name and git branch name
+    add_venv_info () {
+        if [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ] ; then
+            VIRT_ENV_TXT=""
+            if [ "x" != x ] ; then
+                VIRT_ENV_TXT=""
+            else
+                if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
+                    # special case for Aspen magic directories
+                    # see http://www.zetadev.com/software/aspen/
+                    VIRT_ENV_TXT="[`basename \`dirname \"$VIRTUAL_ENV\"\``]"
+                elif [ "$VIRTUAL_ENV" != "" ]; then
+                    VIRT_ENV_TXT="(`basename \"$VIRTUAL_ENV\"`)"
+                fi
+            fi
+            if [ "${VIRT_ENV_TXT}" != "" ]; then
+                echo ${VIRT_ENV_TXT}" "
+            fi
+        fi
+    }
+    PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}$(add_venv_info)\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+fi
