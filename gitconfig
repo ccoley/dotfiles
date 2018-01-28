@@ -17,6 +17,8 @@
 [alias]
     alias = config --get-regexp ^alias\\.
     stat = status
+    st = status
+    sti = status --ignored
     last = show --name-status HEAD
     changed = show --name-status
     unstage = reset HEAD --
