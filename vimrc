@@ -43,7 +43,7 @@ colorscheme solarized
 
 
 " Allow saving of files as sudo when I forget to start vim using sudo
-cmap w!! q !sudo tee > /dev/null %
+cmap w!! w !sudo tee > /dev/null %
 
 
 " Show invisible characters with `:set list!` or <F10>
