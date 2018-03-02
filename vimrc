@@ -8,6 +8,7 @@ set showmode            " Show which mode you're in
 set ruler               " Display cursor position in the lower right corner
 "set number              " Line numbers. ruler makes this redundant
 set showmatch           " Show matching [] () {} etc...
+set showcmd             " Show commands as you type them
 set smartindent         " Let vim help with indentation
 set nowrap              " Do not wrap lines longer than the window
 set scrolloff=5         " Minimum number of lines to keep above/below the cursor
@@ -16,6 +17,7 @@ set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
 set commentstring=#%s   " The comment style for line comments
+let mapleader='\'       " The <leader> key
 
 
 " Tab options
@@ -73,6 +75,18 @@ autocmd BufNewFile,BufRead [Mm]akefile* setlocal noexpandtab
 " Set the terminal title to reflect the open file. Even works with Vim tabs.
 autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname() | set title
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | set title
+
+
+" Enable modeline
+set modeline
+set modelines=5
+
+" Append a modeline at the end of a file. Uses '#' comment character
+nnoremap <leader>ml :call AppendModeline()<CR>
+function! AppendModeline()
+    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sts=%d sw=%d %set ft=%s: ", &tabstop, &shiftwidth, &softtabstop, &expandtab ? '' : 'no', &filetype))
+    call append(line("$"), l:modeline)
+endfunction
 
 
 " Filetype specific settings
