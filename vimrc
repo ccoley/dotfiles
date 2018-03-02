@@ -50,12 +50,12 @@ cmap w!! w !sudo tee > /dev/null %
 " Show invisible characters with `:set list!` or <F10>
 set nolist
 set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
-noremap <F10> :set list!<CR>
+nnoremap <F10> :set list!<CR>
 
 
 " Put a vertical ruler in columns 81 and 121
 highlight ColorColumn ctermbg=magenta
-noremap <F9> :call ToggleColorColumn()<CR>
+nnoremap <F9> :call ToggleColorColumn()<CR>
 function! ToggleColorColumn()
     if &colorcolumn
         setlocal colorcolumn&
