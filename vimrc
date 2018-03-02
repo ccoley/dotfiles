@@ -15,6 +15,7 @@ syntax enable           " Syntax highlighting
 set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
+set commentstring=#%s   " The comment style for line comments
 
 
 " Tab options
@@ -74,10 +75,18 @@ autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname(
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | set title
 
 
-" Filetype specific indentation
-"filetype plugin indent on
-"autocmd FileType html setlocal shiftwidth=2 softtabstop=2   " HTML
-"autocmd FileType php setlocal shiftwidth=4 softtabstop=4    " PHP
+" Filetype specific settings
+autocmd FileType dns setlocal commentstring=;%s
+autocmd FileType gitconfig setlocal commentstring=;%s
+autocmd FileType go setlocal commentstring=//%s
+autocmd FileType html setlocal commentstring=<!--%s-->
+autocmd FileType less setlocal commentstring=/*%s*/
+autocmd FileType php setlocal commentstring=//%s
+autocmd FileType plsql setlocal commentstring=--%s
+autocmd FileType sass setlocal commentstring=//%s
+autocmd FileType sql setlocal commentstring=--%s
+autocmd FileType vim setlocal commentstring=\"%s
+autocmd FileType yaml,ansible setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
 
 " Map numpad keys in insert and command-line mode
