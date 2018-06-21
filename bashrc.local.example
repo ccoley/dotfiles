@@ -12,7 +12,12 @@ if [ -f ~/.git-prompt.sh ]; then
     source ~/.git-prompt.sh
 fi
 
-PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+if [ -z ${PS1_PRE+x} ] && [ -z ${PS1_POST+x} ]; then
+    PS1_PRE='${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]'
+    PS1_POST=' \$ '
+fi
+
+PROMPT_COMMAND='__git_ps1 "$PS1_PRE" "$PS1_POST" " {%s}"'
 
 if [ -d $HOME/.virtualenvs ] && [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     # If virtualenv was installed with python3, then we can assume that
@@ -52,5 +57,5 @@ if [ -d $HOME/.virtualenvs ] && [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
             fi
         fi
     }
-    PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}$(add_venv_info)\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+    PROMPT_COMMAND='__git_ps1 "$PS1_PRE $(add_venv_info)" "$PS1_POST" " {%s}"'
 fi
