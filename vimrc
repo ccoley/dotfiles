@@ -84,7 +84,7 @@ set modelines=5
 " Append a modeline at the end of a file. Uses '#' comment character
 nnoremap <leader>ml :call AppendModeline()<CR>
 function! AppendModeline()
-    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sts=%d sw=%d %set ft=%s: ", &tabstop, &shiftwidth, &softtabstop, &expandtab ? '' : 'no', &filetype))
+    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sts=%d sw=%d %set ft=%s:", &tabstop, &shiftwidth, &softtabstop, &expandtab ? '' : 'no', &filetype))
     call append(line("$"), l:modeline)
 endfunction
 
