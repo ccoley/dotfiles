@@ -6,9 +6,10 @@ fi
 # Enable Git prompt
 # This may cause slowdown on filesystems with slow IO
 if [ -f ~/.git-prompt.sh ]; then
-#    GIT_PS1_SHOWDIRTYSTATE=yes
-#    GIT_PS1_SHOWCOLORHINTS=yes
-#    GIT_PS1_HIDE_IF_PWD_IGNORED=yes
+#    GIT_PS1_SHOWDIRTYSTATE=yes      # Medium Performance Hit
+#    GIT_PS1_SHOWUNTRACKEDFILES=yes  # Large Performance Hit
+#    GIT_PS1_SHOWUPSTREAM='auto'     # Very Small Performance Hit
+    GIT_PS1_SHOWCOLORHINTS=yes
     source ~/.git-prompt.sh
 fi
 
