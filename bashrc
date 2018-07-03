@@ -51,18 +51,15 @@ fi
 
 if [ "$color_prompt" = yes ] && [ "`id -u`" -eq 0 ]; then
     # Red prompt for root
-#    PS1='${debian_chroot:+($debian_chroot)}\h:\[\033[31m\][\w]\[\033[00m\] \$ '
-    PS1_PRE='${debian_chroot:+($debian_chroot)}\h:\[\033[31m\][\w]\[\033[00m\]'
-    PS1_POST=' \$ '
-    PS1="$PS1_PRE$PS1_POST"
+    PS1_PRE='${debian_chroot:+($debian_chroot)}\u@\h:\[\033[31m\][\w]\[\033[0m\]'
 else
     # Default prompt for everyone else
-#    PS1='${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\] \$ '
-    PS1_PRE='${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]'
-    PS1_POST=' \$ '
-    PS1="$PS1_PRE$PS1_POST"
+    PS1_PRE='${debian_chroot:+($debian_chroot)}\u@\h:\[\033[34m\][\w]\[\033[0m\]'
 fi
 unset color_prompt force_color_prompt
+
+PS1_POST=' \$ '
+PS1="$PS1_PRE$PS1_POST"
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
