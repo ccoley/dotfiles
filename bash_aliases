@@ -81,13 +81,22 @@ function mcd {
 # Print a color chart
 alias _color='echo "color(): Print a color chart"'
 function color {
-    for x in 0 1 4 5 7 8; do
-        for i in `seq 30 37`; do
-            for a in `seq 40 47`; do
-                echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m ";
-            done;
-            echo;
-        done;
-    done;
+    # Background Color
+    for clbg in {40..47} {100..107} ; do
+        # Foreground Color
+        for clfg in {30..37} {90..97} ; do
+            # Formatting
+            for frmt in 0 1 2 4 5 7 8 ; do
+                # Print the combination. Order doesn't matter, except in one
+                # specific case. If frmt is 0, then it has to be first because
+                # it is techinally a reset code and it will reset anything
+                # before it in the combination. Because of that edge case, it's
+                # probably best to always put frmt first in the combination.
+                echo -en " \e[${frmt};${clfg};${clbg}m\\\e[${frmt};${clfg};${clbg}m\e[0m "
+            done
+            echo
+        done
+        echo
+    done
     echo -e "\e[0m";
 }
