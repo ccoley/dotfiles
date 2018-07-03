@@ -6,13 +6,19 @@ fi
 # Enable Git prompt
 # This may cause slowdown on filesystems with slow IO
 if [ -f ~/.git-prompt.sh ]; then
-#    GIT_PS1_SHOWDIRTYSTATE=yes
-#    GIT_PS1_SHOWCOLORHINTS=yes
-#    GIT_PS1_HIDE_IF_PWD_IGNORED=yes
+#    GIT_PS1_SHOWDIRTYSTATE=yes      # Medium Performance Hit
+#    GIT_PS1_SHOWUNTRACKEDFILES=yes  # Large Performance Hit
+#    GIT_PS1_SHOWUPSTREAM='auto'     # Very Small Performance Hit
+    GIT_PS1_SHOWCOLORHINTS=yes
     source ~/.git-prompt.sh
 fi
 
-PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+if [ -z ${PS1_PRE+x} ] && [ -z ${PS1_POST+x} ]; then
+    PS1_PRE='${debian_chroot:+($debian_chroot)}\u@\h:\[\033[34m\][\w]\[\033[0m\]'
+    PS1_POST=' \$ '
+fi
+
+PROMPT_COMMAND='__git_ps1 "$PS1_PRE" "$PS1_POST" " {%s}"'
 
 if [ -d $HOME/.virtualenvs ] && [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     # If virtualenv was installed with python3, then we can assume that
@@ -52,5 +58,5 @@ if [ -d $HOME/.virtualenvs ] && [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
             fi
         fi
     }
-    PROMPT_COMMAND='__git_ps1 "${debian_chroot:+($debian_chroot)}$(add_venv_info)\h:\[\033[38;5;25m\][\w]\[\033[00m\]" " \$ " " {%s}"'
+    PROMPT_COMMAND='__git_ps1 "$PS1_PRE $(add_venv_info)" "$PS1_POST" " {%s}"'
 fi
