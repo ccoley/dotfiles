@@ -54,9 +54,9 @@ if [ -d $HOME/.virtualenvs ] && [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
                 fi
             fi
             if [ "${VIRT_ENV_TXT}" != "" ]; then
-                echo ${VIRT_ENV_TXT}" "
+                echo " ${VIRT_ENV_TXT}"
             fi
         fi
     }
-    PROMPT_COMMAND='__git_ps1 "$PS1_PRE $(add_venv_info)" "$PS1_POST" " {%s}"'
+    PROMPT_COMMAND='__git_ps1 "$PS1_PRE$(add_venv_info)" "$PS1_POST" " {%s}"'
 fi
