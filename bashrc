@@ -58,6 +58,11 @@ else
 fi
 unset color_prompt force_color_prompt
 
+# If this is a SCREEN session, modify the prompt
+if [ -n "$STY" ]; then
+    PS1_PRE="\[\033[33m\](${STY#[0-9]*\.}:${WINDOW})\[\033[0m\] $PS1_PRE"
+fi
+
 PS1_POST=' \$ '
 PS1="$PS1_PRE$PS1_POST"
 
