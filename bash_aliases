@@ -54,6 +54,9 @@ alias dume='du -h --exclude="*.git*" | sort -h'
 # Make free output more human friendly
 alias free='free -ht'
 
+# Find VIM swap files. Pass the -delete flag to delete them
+alias swp='find . -type f -name ".*.sw?"'
+
 ###################
 #    Functions    #
 ###################
@@ -100,3 +103,4 @@ function color {
     done
     echo -e "\e[0m";
 }
+alias wpcli='docker-compose run --rm wp-cli '
