@@ -84,7 +84,7 @@ set modelines=5
 " Append a modeline at the end of a file. Uses '#' comment character
 nnoremap <leader>ml :call AppendModeline()<CR>
 function! AppendModeline()
-    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sts=%d sw=%d %set ft=%s:", &tabstop, &shiftwidth, &softtabstop, &expandtab ? '' : 'no', &filetype))
+    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sw=%d %set ft=%s:", &ts, &sw, &et ? '' : 'no', &ft))
     call append(line("$"), l:modeline)
 endfunction
 
@@ -95,6 +95,7 @@ autocmd FileType gitconfig setlocal commentstring=;%s
 autocmd FileType go setlocal commentstring=//%s
 autocmd FileType html setlocal commentstring=<!--%s-->
 autocmd FileType less setlocal commentstring=/*%s*/
+autocmd FileType markdown setlocal commentstring=[_modeline]:\ #\ (%s\ )
 autocmd FileType php setlocal commentstring=//%s
 autocmd FileType plsql setlocal commentstring=--%s
 autocmd FileType sass setlocal commentstring=//%s
