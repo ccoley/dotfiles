@@ -61,6 +61,20 @@ alias swp='find . -type f -name ".*.sw?"'
 #    Functions    #
 ###################
 
+# Basic benchmark with cURL
+alias _curl_time='echo "curl_time(): Show timing info for a cURL request"'
+function curl_time {
+    curl -s -o /dev/null -w "\
+   namelookup:  %{time_namelookup}s\n\
+      connect:  %{time_connect}s\n\
+   appconnect:  %{time_appconnect}s\n\
+  pretransfer:  %{time_pretransfer}s\n\
+     redirect:  %{time_redirect}s\n\
+starttransfer:  %{time_starttransfer}s\n\
+----------------------\n\
+        total:  %{time_total}s\n" "$@"
+}
+
 # Count the number of files in a directory and its sub-directories
 alias _count='echo "count(): Count the number of files in a directory and its sub-directories"'
 function count {
