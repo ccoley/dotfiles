@@ -103,4 +103,3 @@ function color {
     done
     echo -e "\e[0m";
 }
-alias wpcli='docker-compose run --rm wp-cli '
