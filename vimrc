@@ -77,6 +77,10 @@ endfunction
 autocmd BufRead,BufNewFile [Mm]akefile* setlocal noexpandtab
 
 
+" Associate extensions to filetypes
+autocmd BufRead,BufNewFile *.gv setlocal filetype=dot
+
+
 " Set the terminal title to reflect the open file. Even works with Vim tabs.
 autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname() | setlocal title
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | setlocal title
@@ -91,6 +95,7 @@ endfunction
 
 
 " Filetype specific settings
+autocmd FileType dot setlocal commentstring=//%s
 autocmd FileType dns setlocal commentstring=;%s
 autocmd FileType gitconfig setlocal commentstring=;%s
 autocmd FileType go setlocal commentstring=//%s
