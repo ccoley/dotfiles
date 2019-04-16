@@ -16,7 +16,7 @@ syntax enable           " Syntax highlighting
 set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
-set commentstring=#%s   " The comment style for line comments
+set commentstring=#%s   " The default comment style for line comments
 let mapleader='\'       " The <leader> key
 
 
@@ -33,6 +33,11 @@ set ignorecase          " Case insensitive searching
 set smartcase           " Except when the query includes an uppercase character
 set incsearch           " Begin matching query as you type it
 set hlsearch            " Highlight search matches
+
+
+" Enable modeline
+set modeline
+set modelines=5
 
 
 " Code folding
@@ -69,17 +74,13 @@ endfunction
 
 " Make vim turn *off* expandtab for files named Makefile or makefile
 " We need the tab literal
-autocmd BufNewFile,BufRead [Mm]akefile* setlocal noexpandtab
+autocmd BufRead,BufNewFile [Mm]akefile* setlocal noexpandtab
 
 
 " Set the terminal title to reflect the open file. Even works with Vim tabs.
-autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname() | set title
-autocmd VimLeave * let &titleold = $USER . "@" . hostname() | set title
+autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname() | setlocal title
+autocmd VimLeave * let &titleold = $USER . "@" . hostname() | setlocal title
 
-
-" Enable modeline
-set modeline
-set modelines=5
 
 " Append a modeline at the end of a file. Uses '#' comment character
 nnoremap <leader>ml :call AppendModeline()<CR>
