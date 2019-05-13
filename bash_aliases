@@ -117,3 +117,33 @@ function color {
     done
     echo -e "\e[0m";
 }
+
+# Prints the Title and Uploaded Art Path for any media item that match the
+# query parameter.
+#
+# Accepts a title's "Rating Key" also know as "Metadata Key", or a string to
+# match against the title. The string must be quoted if it's multiple words.
+alias _plex-search='Search for Plex media by ID or title. Requires SUDO'
+function plex-search {
+    dbString='file:///var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db?mode=ro'
+    if [[ $1 =~ ^[0-9]+$ ]]; then
+        # Return an exact match by metadata_items.id
+        sudo sqlite3 "$dbString" "SELECT quote(title), quote('Metadata/' || CASE section_type WHEN 1 THEN 'Movies' WHEN 2 THEN 'TV Shows' ELSE 'Unknown' END || '/' || substr(hash,1,1) || '/' || substr(hash,2) || '.bundle/Uploads') FROM metadata_items JOIN library_sections ON library_sections.id = metadata_items.library_section_id WHERE metadata_items.id='$1' ORDER BY section_type ASC"
+    else
+        # Return a LIKE match against metadata_items.title, but only for Movies and TV Episodes.
+        #
+        # Here are the known metadata_types:
+        # 1: Movie
+        # 2: TV Show
+        # 3: TV Season
+        # 4: TV Episode
+        # 8: Music Artist
+        # 9: Music Album
+        # 10: Music Track
+        # 12: Movie Extra
+        # 15: Playlist
+        # 18: Collection
+        # 42: Plex Internal Stuff
+        sudo sqlite3 "$dbString" "SELECT quote(title), quote('Metadata/' || CASE section_type WHEN 1 THEN 'Movies' WHEN 2 THEN 'TV Shows' ELSE 'Unknown' END || '/' || substr(hash,1,1) || '/' || substr(hash,2) || '.bundle/Uploads') FROM metadata_items JOIN library_sections ON library_sections.id = metadata_items.library_section_id WHERE metadata_items.title LIKE '%$1%' AND metadata_type IN (1,4) ORDER BY section_type ASC"
+    fi
+}
