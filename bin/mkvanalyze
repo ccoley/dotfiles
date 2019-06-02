@@ -1,0 +1,179 @@
+#!/bin/bash
+
+#set -x
+
+program_name=$(basename "$0")
+
+# Print an error message and exit.
+#
+# Usage: error_exit <error-message> <exit-code>
+#   <error-message> The error message to print. Defaults to "Unknown Error".
+#   <exit-code> The exit code to use. Defaults to 1.
+error_exit() {
+    exit_code="${2:-1}"
+    echo "$program_name: ${1:-"Unknown Error"}" >&2
+    exit "$exit_code"
+}
+
+# Prints the relative path to the file being analyzed, but only once. 
+#
+# Usage: print_filename_once
+print_filename_once() {
+    # Initialize the state variable if it isn't set
+    filename_printed=${filename_printed:-0}
+
+    if [[ $filename_printed -eq 0 && -n "${file:?}" ]]; then
+        echo
+        echo "'$(realpath --relative-to="$PWD" "$file")'"
+        filename_printed=1
+    fi
+}
+
+print_usage() {
+    read -d '' HELP_TEXT <<EOF
+Usage: $program_name [options] <working-directory>
+Options:
+  -f
+    This script will attempt to fix any issues it finds.
+
+  -d
+    When fixing video dimension issues, preserve the display dimensions.
+
+  -p
+    When fixing video dimension issues, preserve the pixel dimensions.
+
+  -h
+    Show this help text.
+EOF
+    echo "$HELP_TEXT"
+    echo
+}
+
+# Parse command options
+flag_f=0
+flag_d=0
+flag_p=0
+while getopts 'fdph' flag; do
+    case "${flag}" in
+        f)
+            flag_f=1
+            ;;
+        d)
+            flag_d=1
+            ;;
+        p)
+            flag_p=1
+            ;;
+        h)
+            print_usage
+            exit 0
+            ;;
+        *)
+            echo
+            print_usage
+            exit 1
+            ;;
+    esac
+done
+shift "$((OPTIND - 1))"
+
+# Check exclusive options
+if [[ $flag_d -eq 1 && $flag_p -eq 1 ]]; then
+    error_exit "Cannot use both -d and -p options at the same time."
+fi
+
+# Make sure dependencies are available
+if ! [[ -x "$(command -v mkvinfo)" ]]; then
+    error_exit "mkvinfo is not installed"
+fi
+if [[ $flag_f -eq 1 && ! -x "$(command -v mkvpropedit)" ]]; then
+    error_exit "mkvpropedit is not installed"
+fi
+
+# Determine the working directory
+if [[ "$1" == "" ]]; then
+    work_dir=$PWD
+else
+    work_dir=$(readlink -f "$1")
+fi
+
+# Recursively loop over all the MKV files in the working directory
+while IFS= read -rd '' file <&3; do
+    # Reset the filename printed state variable
+    filename_printed=0
+
+    # Get the stats for the MKV file
+    file_info=$(mkvinfo "$file")
+
+    # Check title
+    title=$(echo "$file_info" | grep 'Title:' | sed 's/.* Title: \(.*\)$/\1/')
+    if [[ -z "$title" ]]; then
+        print_filename_once
+        echo "Title Missing"
+        if [[ $flag_f -eq 1 ]]; then
+            new_title="$(basename "$file")"   # get the filename
+            new_title="${new_title%.*}"     # remove the extension
+            echo -n "Enter a title, or s to skip [$new_title]: "
+            read -e user_title
+            new_title="${user_title:-$new_title}"
+
+            # Set the title, unless user chose to skip
+            if [[ "s" != "$(echo "$new_title" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')" ]]; then
+                mkvpropedit "$file" --edit info -s title="$new_title" \
+                    || error_exit "Failed to set title on file" $?
+            fi
+        fi
+    fi
+    
+    # Check width
+    pixel_width=$(echo "$file_info" | grep 'Pixel width' | sed 's/[^0-9]*//g')
+    display_width=$(echo "$file_info" | grep 'Display width' | sed 's/[^0-9]*//g')
+    if [[ "$pixel_width" -ne "$display_width" ]]; then
+        print_filename_once
+        echo "Width Mismatch | Pixel: $pixel_width, Display: $display_width"
+        if [[ $flag_f -eq 1 ]]; then
+            echo "Attempting to fix width mismatch..."
+            if [[ $flag_d -eq 1 ]]; then
+                key='pixel-width'
+                value="$display_width"
+            elif [[ $flag_p -eq 1 ]]; then
+                key='display-width'
+                value="$pixel_width"
+            else
+                echo "Skipping because neither -d or -p option was specified."
+                continue;
+            fi
+            
+            mkvpropedit "$file" --edit track:v1 --set "$key"="$value" \
+                || error_exit "Failed to fix width mismatch" $?
+        fi
+    fi
+
+    # Check height
+    pixel_height=$(echo "$file_info" | grep -i 'pixel height' | sed 's/[^0-9]*//g')
+    display_height=$(echo "$file_info" | grep -i 'display height' | sed 's/[^0-9]*//g')
+    if [[ "$pixel_height" -ne "$display_height" ]]; then
+        print_filename_once
+        echo "Height Mismatch | Pixel: $pixel_height, Display: $display_height"
+        if [[ $flag_f -eq 1 ]]; then
+            echo "Attempting to fix height mismatch..."
+            if [[ $flag_d -eq 1 ]]; then
+                key='pixel-height'
+                value="$display_height"
+            elif [[ $flag_p -eq 1 ]]; then
+                key='display-height'
+                value="$pixel_height"
+            else
+                echo "Skipping because neither -d or -p option was specified."
+                continue;
+            fi
+            
+            mkvpropedit "$file" --edit track:v1 --set "$key"="$value" \
+                || error_exit "Failed to fix height mismatch" $?
+        fi
+    fi
+done 3< <(find "$work_dir" -type f -name "*.mkv" -print0)
+
+exit
+
+# vi: set ts=4 sw=4 et ft=sh:
