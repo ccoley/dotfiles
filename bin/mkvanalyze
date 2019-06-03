@@ -124,54 +124,54 @@ while IFS= read -rd '' file <&3; do
             fi
         fi
     fi
-    
+
     # Check width
     pixel_width=$(echo "$file_info" | grep 'Pixel width' | sed 's/[^0-9]*//g')
     display_width=$(echo "$file_info" | grep 'Display width' | sed 's/[^0-9]*//g')
-    if [[ "$pixel_width" -ne "$display_width" ]]; then
-        print_filename_once
-        echo "Width Mismatch | Pixel: $pixel_width, Display: $display_width"
-        if [[ $flag_f -eq 1 ]]; then
-            echo "Attempting to fix width mismatch..."
-            if [[ $flag_d -eq 1 ]]; then
-                key='pixel-width'
-                value="$display_width"
-            elif [[ $flag_p -eq 1 ]]; then
-                key='display-width'
-                value="$pixel_width"
-            else
-                echo "Skipping because neither -d or -p option was specified."
-                continue;
-            fi
-            
-            mkvpropedit "$file" --edit track:v1 --set "$key"="$value" \
-                || error_exit "Failed to fix width mismatch" $?
-        fi
-    fi
+#    if [[ "$pixel_width" -ne "$display_width" ]]; then
+#        print_filename_once
+#        echo "Width Mismatch | Pixel: $pixel_width, Display: $display_width"
+#        if [[ $flag_f -eq 1 ]]; then
+#            echo "Attempting to fix width mismatch..."
+#            if [[ $flag_d -eq 1 ]]; then
+#                key='pixel-width'
+#                value="$display_width"
+#            elif [[ $flag_p -eq 1 ]]; then
+#                key='display-width'
+#                value="$pixel_width"
+#            else
+#                echo "Skipping because neither -d or -p option was specified."
+#                continue;
+#            fi
+#
+#            mkvpropedit "$file" --edit track:v1 --set "$key"="$value" \
+#                || error_exit "Failed to fix width mismatch" $?
+#        fi
+#    fi
 
     # Check height
     pixel_height=$(echo "$file_info" | grep -i 'pixel height' | sed 's/[^0-9]*//g')
     display_height=$(echo "$file_info" | grep -i 'display height' | sed 's/[^0-9]*//g')
-    if [[ "$pixel_height" -ne "$display_height" ]]; then
-        print_filename_once
-        echo "Height Mismatch | Pixel: $pixel_height, Display: $display_height"
-        if [[ $flag_f -eq 1 ]]; then
-            echo "Attempting to fix height mismatch..."
-            if [[ $flag_d -eq 1 ]]; then
-                key='pixel-height'
-                value="$display_height"
-            elif [[ $flag_p -eq 1 ]]; then
-                key='display-height'
-                value="$pixel_height"
-            else
-                echo "Skipping because neither -d or -p option was specified."
-                continue;
-            fi
-            
-            mkvpropedit "$file" --edit track:v1 --set "$key"="$value" \
-                || error_exit "Failed to fix height mismatch" $?
-        fi
-    fi
+#    if [[ "$pixel_height" -ne "$display_height" ]]; then
+#        print_filename_once
+#        echo "Height Mismatch | Pixel: $pixel_height, Display: $display_height"
+#        if [[ $flag_f -eq 1 ]]; then
+#            echo "Attempting to fix height mismatch..."
+#            if [[ $flag_d -eq 1 ]]; then
+#                key='pixel-height'
+#                value="$display_height"
+#            elif [[ $flag_p -eq 1 ]]; then
+#                key='display-height'
+#                value="$pixel_height"
+#            else
+#                echo "Skipping because neither -d or -p option was specified."
+#                continue;
+#            fi
+#
+#            mkvpropedit "$file" --edit track:v1 --set "$key"="$value" \
+#                || error_exit "Failed to fix height mismatch" $?
+#        fi
+#    fi
 done 3< <(find "$work_dir" -type f -name "*.mkv" -print0)
 
 exit
