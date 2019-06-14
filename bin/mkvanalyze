@@ -111,8 +111,9 @@ while IFS= read -rd '' file <&3; do
         print_filename_once
         echo "Title Missing"
         if [[ $flag_f -eq 1 ]]; then
-            new_title="$(basename "$file")"   # get the filename
-            new_title="${new_title%.*}"     # remove the extension
+            new_title="$(basename "$file")"                     # get the filename
+            new_title="${new_title%.*}"                         # remove the extension
+            new_title="${new_title/% ([0-9][0-9][0-9][0-9])/}"  # remove the year
             echo -n "Enter a title, or s to skip [$new_title]: "
             read -e user_title
             new_title="${user_title:-$new_title}"
