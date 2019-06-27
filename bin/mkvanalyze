@@ -36,6 +36,10 @@ Options:
   -f
     This script will attempt to fix any issues it finds.
 
+  -b <bts-prefix>
+    This allows you to specify a prefix to prepend to the names of "Behind the
+    Scenes" files.
+
   -d
     When fixing video dimension issues, preserve the display dimensions.
 
@@ -53,10 +57,14 @@ EOF
 flag_f=0
 flag_d=0
 flag_p=0
-while getopts 'fdph' flag; do
+bts_prefix=''
+while getopts 'fb:dph' flag; do
     case "${flag}" in
         f)
             flag_f=1
+            ;;
+        b)
+            bts_prefix="$OPTARG"
             ;;
         d)
             flag_d=1
@@ -114,6 +122,12 @@ while IFS= read -rd '' file <&3; do
             new_title="$(basename "$file")"                     # get the filename
             new_title="${new_title%.*}"                         # remove the extension
             new_title="${new_title/% ([0-9][0-9][0-9][0-9])/}"  # remove the year
+
+            # If this file is a 'Behind The Scenes' file add the prefix
+            if [[ -n $bts_prefix && "$(dirname "$file")" =~ [Bb]ehind\ [Tt]he\ [Ss]cenes$ ]]; then
+                new_title="$bts_prefix$new_title"
+            fi
+
             echo -n "Enter a title, or s to skip [$new_title]: "
             read -e user_title
             new_title="${user_title:-$new_title}"
