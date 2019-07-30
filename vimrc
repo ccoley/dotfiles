@@ -95,6 +95,7 @@ endfunction
 
 
 " Filetype specific settings
+autocmd FileType diff setlocal noet
 autocmd FileType dot setlocal commentstring=//%s
 autocmd FileType dns setlocal commentstring=;%s
 autocmd FileType gitconfig setlocal commentstring=;%s
