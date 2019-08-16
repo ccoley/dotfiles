@@ -17,6 +17,7 @@
     compactionHeuristic = true
     algorithm = patience
 [alias]
+    ahead = show --name-status @{u}..HEAD
     alias = config --get-regexp ^alias\\.
     stat = status
     st = status
