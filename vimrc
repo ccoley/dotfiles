@@ -17,7 +17,7 @@ set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
 set commentstring=#%s   " The default comment style for line comments
-let mapleader='\'       " The <leader> key
+let mapleader='\'       " The <leader> key for key maps
 
 
 " Tab options
@@ -56,7 +56,7 @@ cmap w!! w !sudo tee > /dev/null %
 
 " Show invisible characters with `:set list!` or <F10>
 set nolist
-set listchars=tab:»-,trail:·,extends:>,precedes:<,eol:¬
+set listchars=tab:\|·,trail:·,nbsp:¤,extends:>,precedes:<,eol:¬
 nnoremap <F10> :set list!<CR>
 
 
