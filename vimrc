@@ -11,11 +11,13 @@ set showmatch           " Show matching [] () {} etc...
 set showcmd             " Show commands as you type them
 set smartindent         " Let vim help with indentation
 set nowrap              " Do not wrap lines longer than the window
+set linebreak           " Wrap long lines on whitespace instead of mid-word
 set scrolloff=5         " Minimum number of lines to keep above/below the cursor
 syntax enable           " Syntax highlighting
 set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
+set showbreak=└\        " Prefix wrapped continuation lines with '└ '
 set commentstring=#%s   " The default comment style for line comments
 let mapleader='\'       " The <leader> key for key maps
 
@@ -89,7 +91,7 @@ autocmd VimLeave * let &titleold = $USER . "@" . hostname() | setlocal title
 " Append a modeline at the end of a file. Uses '#' comment character
 nnoremap <leader>ml :call AppendModeline()<CR>
 function! AppendModeline()
-    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sw=%d %set ft=%s:", &ts, &sw, &et ? '' : 'no', &ft))
+    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sw=%d %set %sft=%s:", &ts, &sw, &et ? '' : 'no', &wrap ? 'wrap ' : '', &ft))
     call append(line("$"), l:modeline)
 endfunction
 
@@ -102,7 +104,7 @@ autocmd FileType gitconfig setlocal commentstring=;%s
 autocmd FileType go setlocal commentstring=//%s
 autocmd FileType html setlocal commentstring=<!--%s-->
 autocmd FileType less setlocal commentstring=/*%s*/
-autocmd FileType markdown setlocal commentstring=[_modeline]:\ #\ (%s\ )
+autocmd FileType markdown setlocal wrap commentstring=[_modeline]:\ #\ (%s\ )
 autocmd FileType php setlocal commentstring=//%s
 autocmd FileType plsql setlocal commentstring=--%s
 autocmd FileType sass setlocal commentstring=//%s
