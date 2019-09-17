@@ -93,10 +93,6 @@ function! AppendModeline()
 endfunction
 
 
-" Filetype specific settings
-autocmd FileType dns setlocal commentstring=;\ %s
-
-
 " Map numpad keys in insert and command-line mode
 "noremap! <Esc>Oq 1
 "noremap! <Esc>Or 2
