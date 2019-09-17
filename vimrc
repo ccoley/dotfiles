@@ -106,7 +106,6 @@ autocmd FileType gitconfig setlocal commentstring=;%s
 autocmd FileType go setlocal commentstring=//%s
 autocmd FileType html setlocal commentstring=<!--%s-->
 autocmd FileType less setlocal commentstring=/*%s*/
-autocmd FileType markdown setlocal wrap commentstring=[_modeline]:\ #\ (%s\ )
 autocmd FileType php setlocal commentstring=//%s
 autocmd FileType plsql setlocal commentstring=--%s
 autocmd FileType sass setlocal commentstring=//%s
