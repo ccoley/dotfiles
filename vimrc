@@ -17,7 +17,6 @@ set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
 set showbreak=└\        " Prefix wrapped continuation lines with '└ '
-set commentstring=#\ %s " The default comment style for line comments
 let mapleader='\'       " The <leader> key for key maps
 syntax enable           " Syntax highlighting
 filetype plugin on      " Enable the filetype plugin
@@ -75,10 +74,6 @@ function! ToggleColorColumn()
 endfunction
 
 
-" Associate extensions to filetypes
-autocmd BufRead,BufNewFile *.gv setlocal filetype=dot
-
-
 " Set the terminal title to reflect the open file. Even works with Vim tabs.
 autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname() | setlocal title
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | setlocal title
@@ -99,19 +94,7 @@ endfunction
 
 
 " Filetype specific settings
-autocmd FileType diff setlocal noet
-autocmd FileType dot setlocal commentstring=//\ %s
 autocmd FileType dns setlocal commentstring=;\ %s
-autocmd FileType gitconfig setlocal commentstring=;\ %s
-autocmd FileType go setlocal commentstring=//\ %s
-autocmd FileType html setlocal commentstring=<!--\ %s\ -->
-autocmd FileType less setlocal commentstring=/*\ %s\ */
-autocmd FileType php setlocal commentstring=//\ %s
-autocmd FileType plsql setlocal commentstring=--\ %s
-autocmd FileType sass setlocal commentstring=//\ %s
-autocmd FileType sql setlocal commentstring=--\ %s
-autocmd FileType vim setlocal commentstring=\"\ %s
-autocmd FileType yaml,ansible setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
 
 " Map numpad keys in insert and command-line mode
