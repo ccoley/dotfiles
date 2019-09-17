@@ -37,9 +37,9 @@ set incsearch           " Begin matching query as you type it
 set hlsearch            " Highlight search matches
 
 
-" Enable modeline
-set modeline
-set modelines=5
+" Modeline options
+set modeline            " Enable the Vim modeline in files
+set modelines=5         " The number of lines to check for :set commands
 
 
 " Code folding
@@ -56,13 +56,13 @@ colorscheme solarized
 cmap w!! w !sudo tee > /dev/null %
 
 
-" Show invisible characters with `:set list!` or <F10>
+" Show invisible characters. Toggle with <F10>
 set nolist
 set listchars=tab:\|·,trail:·,nbsp:¤,extends:>,precedes:<,eol:¬
 nnoremap <F10> :set list!<CR>
 
 
-" Put a vertical ruler in columns 81 and 121
+" Put a vertical ruler in columns 81 and 121. Toggle with <F9>
 highlight ColorColumn ctermbg=magenta
 nnoremap <F9> :call ToggleColorColumn()<CR>
 function! ToggleColorColumn()
@@ -79,7 +79,7 @@ autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname(
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | setlocal title
 
 
-" Append a modeline at the end of a file.
+" Append a modeline at the end of a file. Call with `<leader>ml`
 "
 " By default, it formats the modeline as a line comment so it gets ignored by
 " anything that isn't Vim. You can override the commentstring by setting
@@ -93,39 +93,4 @@ function! AppendModeline()
 endfunction
 
 
-" Map numpad keys in insert and command-line mode
-"noremap! <Esc>Oq 1
-"noremap! <Esc>Or 2
-"noremap! <Esc>Os 3
-"noremap! <Esc>Ot 4
-"noremap! <Esc>Ou 5
-"noremap! <Esc>Ov 6
-"noremap! <Esc>Ow 7
-"noremap! <Esc>Ox 8
-"noremap! <Esc>Oy 9
-"noremap! <Esc>Op 0
-"noremap! <Esc>On .
-"noremap! <Esc>OQ /
-"noremap! <Esc>OR *
-"noremap! <Esc>Ol +
-"noremap! <Esc>OS -
-"noremap! <Esc>OM <Enter>
-
-
-" Map numpad keys in all other modes
-"noremap <Esc>Oq 1
-"noremap <Esc>Or 2
-"noremap <Esc>Os 3
-"noremap <Esc>Ot 4
-"noremap <Esc>Ou 5
-"noremap <Esc>Ov 6
-"noremap <Esc>Ow 7
-"noremap <Esc>Ox 8
-"noremap <Esc>Oy 9
-"noremap <Esc>Op 0
-"noremap <Esc>On .
-"noremap <Esc>OQ /
-"noremap <Esc>OR *
-"noremap <Esc>Ol +
-"noremap <Esc>OS -
-"noremap <Esc>OM <Enter>
+" vi: set ts=4 sw=4 et ft=vim:
