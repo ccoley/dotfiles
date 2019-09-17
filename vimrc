@@ -13,13 +13,14 @@ set smartindent         " Let vim help with indentation
 set nowrap              " Do not wrap lines longer than the window
 set linebreak           " Wrap long lines on whitespace instead of mid-word
 set scrolloff=5         " Minimum number of lines to keep above/below the cursor
-syntax enable           " Syntax highlighting
 set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
 set showbreak=└\        " Prefix wrapped continuation lines with '└ '
 set commentstring=#%s   " The default comment style for line comments
 let mapleader='\'       " The <leader> key for key maps
+syntax enable           " Syntax highlighting
+filetype plugin on      " Enable the filetype plugin
 
 
 " Tab options
