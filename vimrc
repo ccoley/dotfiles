@@ -84,10 +84,16 @@ autocmd BufEnter * let &titlestring = expand("%:t") . " - %{$USER}@" . hostname(
 autocmd VimLeave * let &titleold = $USER . "@" . hostname() | setlocal title
 
 
-" Append a modeline at the end of a file. Uses '#' comment character
+" Append a modeline at the end of a file.
+"
+" By default, it formats the modeline as a line comment so it gets ignored by
+" anything that isn't Vim. You can override the commentstring by setting
+" b:ml_commentstring to something else.
 nnoremap <leader>ml :call AppendModeline()<CR>
 function! AppendModeline()
-    let l:modeline = printf(&commentstring, printf(" vi: set ts=%d sw=%d %set %sft=%s:", &ts, &sw, &et ? '' : 'no', &wrap ? 'wrap ' : '', &ft))
+    " Prefer b:ml_commentstring if it is set, otherwise use commentstring
+    let l:commentstring = get(b:, 'ml_commentstring', &commentstring)
+    let l:modeline = printf(l:commentstring, printf(" vi: set ts=%d sw=%d %set %sft=%s:", &ts, &sw, &et ? '' : 'no', &wrap ? 'wrap ' : '', &ft))
     call append(line("$"), l:modeline)
 endfunction
 
