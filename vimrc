@@ -17,7 +17,7 @@ set backspace=2         " Make Backspace work like you expect
 set formatoptions+=ro   " Automatically insert the comment character when you
                         " hit <Enter> (r) or o/O (o) in a comment block
 set showbreak=└\        " Prefix wrapped continuation lines with '└ '
-set commentstring=#%s   " The default comment style for line comments
+set commentstring=#\ %s " The default comment style for line comments
 let mapleader='\'       " The <leader> key for key maps
 syntax enable           " Syntax highlighting
 filetype plugin on      " Enable the filetype plugin
@@ -93,24 +93,24 @@ nnoremap <leader>ml :call AppendModeline()<CR>
 function! AppendModeline()
     " Prefer b:ml_commentstring if it is set, otherwise use commentstring
     let l:commentstring = get(b:, 'ml_commentstring', &commentstring)
-    let l:modeline = printf(l:commentstring, printf(" vi: set ts=%d sw=%d %set %sft=%s:", &ts, &sw, &et ? '' : 'no', &wrap ? 'wrap ' : '', &ft))
+    let l:modeline = printf(l:commentstring, printf("vi: set ts=%d sw=%d %set %sft=%s:", &ts, &sw, &et ? '' : 'no', &wrap ? 'wrap ' : '', &ft))
     call append(line("$"), l:modeline)
 endfunction
 
 
 " Filetype specific settings
 autocmd FileType diff setlocal noet
-autocmd FileType dot setlocal commentstring=//%s
-autocmd FileType dns setlocal commentstring=;%s
-autocmd FileType gitconfig setlocal commentstring=;%s
-autocmd FileType go setlocal commentstring=//%s
-autocmd FileType html setlocal commentstring=<!--%s-->
-autocmd FileType less setlocal commentstring=/*%s*/
-autocmd FileType php setlocal commentstring=//%s
-autocmd FileType plsql setlocal commentstring=--%s
-autocmd FileType sass setlocal commentstring=//%s
-autocmd FileType sql setlocal commentstring=--%s
-autocmd FileType vim setlocal commentstring=\"%s
+autocmd FileType dot setlocal commentstring=//\ %s
+autocmd FileType dns setlocal commentstring=;\ %s
+autocmd FileType gitconfig setlocal commentstring=;\ %s
+autocmd FileType go setlocal commentstring=//\ %s
+autocmd FileType html setlocal commentstring=<!--\ %s\ -->
+autocmd FileType less setlocal commentstring=/*\ %s\ */
+autocmd FileType php setlocal commentstring=//\ %s
+autocmd FileType plsql setlocal commentstring=--\ %s
+autocmd FileType sass setlocal commentstring=//\ %s
+autocmd FileType sql setlocal commentstring=--\ %s
+autocmd FileType vim setlocal commentstring=\"\ %s
 autocmd FileType yaml,ansible setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
 
