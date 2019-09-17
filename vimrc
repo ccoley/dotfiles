@@ -75,11 +75,6 @@ function! ToggleColorColumn()
 endfunction
 
 
-" Make vim turn *off* expandtab for files named Makefile or makefile
-" We need the tab literal
-autocmd BufRead,BufNewFile [Mm]akefile* setlocal noexpandtab
-
-
 " Associate extensions to filetypes
 autocmd BufRead,BufNewFile *.gv setlocal filetype=dot
 
