@@ -56,6 +56,10 @@ colorscheme solarized
 cmap w!! w !sudo tee > /dev/null %
 
 
+" Clear the search highlighting. Call with `<leader>/`
+nnoremap <silent> <leader>/ :set nohlsearch<CR>
+
+
 " Show invisible characters. Toggle with <F10>
 set nolist
 set listchars=tab:\|·,trail:·,nbsp:¤,extends:>,precedes:<,eol:¬
