@@ -36,8 +36,11 @@ Options:
   -f
     This script will attempt to fix any issues it finds.
 
+  -t
+    Consider a title that don't match the recommended title as an issue.
+
   -b <bts-prefix>
-    This allows you to specify a prefix to prepend to the names of "Behind the
+    This allows you to specify a prefix to prepend to the title of "Behind the
     Scenes" files.
 
   -d
@@ -55,13 +58,17 @@ EOF
 
 # Parse command options
 flag_f=0
+flag_t=0
 flag_d=0
 flag_p=0
 bts_prefix=''
-while getopts 'fb:dph' flag; do
+while getopts 'ftb:dph' flag; do
     case "${flag}" in
         f)
             flag_f=1
+            ;;
+        t)
+            flag_t=1
             ;;
         b)
             bts_prefix="$OPTARG"
@@ -115,25 +122,34 @@ while IFS= read -rd '' file <&3; do
 
     # Check title
     title=$(echo "$file_info" | grep 'Title:' | sed 's/.* Title: \(.*\)$/\1/')
-    if [[ -z "$title" ]]; then
-        print_filename_once
-        echo "Title Missing"
+    if [[ -z "$title" || $flag_t -eq 1 ]]; then
+        if [[ -z "$title" ]]; then
+            print_filename_once
+            echo "Title Missing"
+        fi
+
+        # Generate a new title to recommend
+        new_title="$(basename "$file")"                     # get the filename
+        new_title="${new_title%.*}"                         # remove the extension
+        new_title="${new_title/% ([0-9][0-9][0-9][0-9])/}"  # remove the year
+
+        # If this file is a 'Behind The Scenes' file add the prefix
+        if [[ -n $bts_prefix && "$(dirname "$file")" =~ [Bb]ehind\ [Tt]he\ [Ss]cenes$ ]]; then
+            new_title="$bts_prefix$new_title"
+        fi
+
+        # If this is a TV episode, remove the show name and season/episode
+        # number
+        if [[ "$new_title" =~ S[0-9]+E[0-9]+ ]]; then
+            new_title="${new_title##*S[0-9][0-9]E[0-9][0-9] - }"
+        fi
+
+        if [[ $flag_t -eq 1 && "$title" != "$new_title" ]]; then
+            print_filename_once
+            echo "Title does not match recommended title [$new_title]"
+        fi
+
         if [[ $flag_f -eq 1 ]]; then
-            new_title="$(basename "$file")"                     # get the filename
-            new_title="${new_title%.*}"                         # remove the extension
-            new_title="${new_title/% ([0-9][0-9][0-9][0-9])/}"  # remove the year
-
-            # If this file is a 'Behind The Scenes' file add the prefix
-            if [[ -n $bts_prefix && "$(dirname "$file")" =~ [Bb]ehind\ [Tt]he\ [Ss]cenes$ ]]; then
-                new_title="$bts_prefix$new_title"
-            fi
-
-            # If this is a TV episode, remove the show name and season/episode
-            # number
-            if [[ "$new_title" =~ S[0-9]+E[0-9]+ ]]; then
-                new_title="${new_title##*S[0-9][0-9]E[0-9][0-9] - }"
-            fi
-
             echo -n "Enter a title, or s to skip [$new_title]: "
             read -e user_title
             new_title="${user_title:-$new_title}"
