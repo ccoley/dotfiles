@@ -128,6 +128,12 @@ while IFS= read -rd '' file <&3; do
                 new_title="$bts_prefix$new_title"
             fi
 
+            # If this is a TV episode, remove the show name and season/episode
+            # number
+            if [[ "$new_title" =~ S[0-9]+E[0-9]+ ]]; then
+                new_title="${new_title##*S[0-9][0-9]E[0-9][0-9] - }"
+            fi
+
             echo -n "Enter a title, or s to skip [$new_title]: "
             read -e user_title
             new_title="${user_title:-$new_title}"
