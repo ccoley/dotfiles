@@ -32,7 +32,7 @@ alias timezone='date +"%Z (GMT %:z)"'
 alias week='date +%V'
 
 # IP address
-alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # Enable aliases to be sudo'ed
 alias sudo='sudo '
