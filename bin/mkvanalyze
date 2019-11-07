@@ -122,12 +122,8 @@ while IFS= read -rd '' file <&3; do
 
     # Check title
     title=$(echo "$file_info" | grep 'Title:' | sed 's/.* Title: \(.*\)$/\1/')
+    title_issue=0
     if [[ -z "$title" || $flag_t -eq 1 ]]; then
-        if [[ -z "$title" ]]; then
-            print_filename_once
-            echo "Title Missing"
-        fi
-
         # Generate a new title to recommend
         new_title="$(basename "$file")"                     # get the filename
         new_title="${new_title%.*}"                         # remove the extension
@@ -144,12 +140,21 @@ while IFS= read -rd '' file <&3; do
             new_title="${new_title##*S[0-9][0-9]E[0-9][0-9] - }"
         fi
 
-        if [[ $flag_t -eq 1 && "$title" != "$new_title" ]]; then
+        # If title is empty
+        if [[ -z "$title" ]]; then
+            title_issue=1
             print_filename_once
-            echo "Title does not match recommended title [$new_title]"
+            echo "Title Missing"
         fi
 
-        if [[ $flag_f -eq 1 ]]; then
+        # If actual title doesn't match recommended title and we care about that
+        if [[ $flag_t -eq 1 && "$title" != "$new_title" ]]; then
+            title_issue=1
+            print_filename_once
+            echo "Actual title [$title] does not match recommended title [$new_title]"
+        fi
+
+        if [[ $title_issue -eq 1 && $flag_f -eq 1 ]]; then
             echo -n "Enter a title, or s to skip [$new_title]: "
             read -e user_title
             new_title="${user_title:-$new_title}"
