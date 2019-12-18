@@ -25,8 +25,8 @@ filetype plugin on      " Enable the filetype plugin
 " Tab options
 set expandtab           " Soft tabs, changes tabs to spaces
 set tabstop=4           " Number of spaces in a tab
-set softtabstop=4       " Number of spaces in a soft tab
-set shiftwidth=4        " Number of spaces in an indentation level.
+set softtabstop=0       " Number of spaces in a soft tab. 0 is disabled
+set shiftwidth=4        " Number of spaces in an indentation level
 
 
 " Searching options
