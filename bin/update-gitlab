@@ -1,0 +1,135 @@
+#!/bin/bash
+
+# This tool upgrades GitLab Omnibus to the most recent patch version of the
+# previous minor version. GitLab maintains security fixes for the 3 most recent
+# minor versions, but the latest minor version frequently has regressions.
+
+program_name=$(basename "$0")
+package='gitlab-ce'
+
+# Print an error message and exit.
+#
+# Usage: error_exit <error-message> <exit-code>
+#   <error-message> The error message to print. Defaults to "Unknown Error".
+#   <exit-code> The exit code to use. Defaults to 1.
+error_exit() {
+    exit_code="${2:-1}"
+    echo -e "${program_name}: ${1:-"Unknown Error"}" >&2
+    exit "${exit_code}"
+}
+
+# Print the help text
+print_usage() {
+    read -d '' help_text <<EOF
+This tool upgrades GitLab Omnibus to the most recent patch version of the
+previous minor version. GitLab maintains security fixes for the 3 most recent
+minor versions, but the latest minor version frequently has regressions.
+
+For example, if the available versions are as follows:
+
+    10.2.1  <-  Latest version
+    10.2.0
+    10.1.2  <-  Target version, most stable
+    10.1.1
+    10.1.0
+
+then the previous minor version is 10.1.x and this tool will upgrade GitLab
+Omnibus to the latest patch version in the 10.1.x family.
+
+
+Usage: $program_name [options]
+Options:
+  -d, --dry-run
+    Enables dry run. The package database may be updated, but ${package} will
+    not be upgraded.
+
+  -v, --verbose
+    Prints more output, including the latest, target, and installed versions of
+    ${package}.
+
+  -c, --code
+    Return exit code 64 instead of 0 if installed version of ${package} is newer
+    or the same as the target version.
+
+  -h, --help
+    Show this help text.
+EOF
+    echo "${help_text}"
+    echo
+}
+
+# Parse command options
+flag_dry_run=0
+flag_verbose=0
+flag_exit_code=0
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        "-d" | "--dry-run")
+            flag_dry_run=1
+            ;;
+        "-v" | "--verbose")
+            flag_verbose=1
+            ;;
+        "-c" | "--code")
+            flag_exit_code=1
+            ;;
+        "-h" | "--help")
+            print_usage
+            exit 0
+            ;;
+        *)
+            error_exit "Unknown argument: $1\nUse the -h option to view the usage instructions."
+            ;;
+    esac
+    shift
+done
+
+# Make sure we're running as root
+if [ $(id -u) -ne 0 ]; then
+    echo "This script must be run as root or with sudo"
+    exit 1
+fi
+
+# Update Apt-Cache if older than 15 minutes
+if [ "$[$(date +%s) - $(stat -c %Z /var/lib/apt/periodic/update-success-stamp)]" -ge 900 ]; then
+    echo "APT cache is stale; updating..."
+    apt-get -qq update
+    echo
+fi
+
+latest=`apt-cache policy ${package} | sed -n 's/  Candidate: \([0-9]\+\.[0-9]\+\.[^ ]\+\).*/\1/p'`
+installed=`apt-cache policy ${package} | sed -n 's/  Installed: \([0-9]\+\.[0-9]\+\.[^ ]\+\).*/\1/p'`
+last_minor_version=`apt-cache madison ${package} | awk -F ' \\\| |\\\.' '{print $2 "." $3}' | sort -Vru | sed -n 2p`
+target=`apt-cache madison ${package} | awk -F ' \\\| ' '{print $2}' | sort -Vr | sed -n "/^${last_minor_version}\./{p;q;}"`
+
+if [ ${flag_verbose} -eq 1 ]; then
+    echo "Installed version: ${installed}"
+    echo "Latest version:    ${latest}"
+    echo "Target version:    ${target}"
+    echo
+fi
+
+if [ "${installed}" == "${target}" ]; then
+    echo "Most recent patch version (${target}) of last minor version is already installed."
+    if [ ${flag_exit_code} -eq 1 ]; then
+        exit 64
+    fi
+elif [ "${target}" != `echo -e "${installed}\n${target}" | sort -Vr | sed -n 1p` ]; then
+    echo "Installed version (${installed}) is newer than the target version (${target}.*). Not upgrading."
+    if [ ${flag_exit_code} -eq 1 ]; then
+        exit 64
+    fi
+else
+    if [ ${flag_dry_run} -eq 0 ]; then
+        echo "Upgrading from ${installed} to ${target}"
+        apt-get install ${package}=${target}
+    else
+        echo "Would upgrade from ${installed} to ${target}"
+    fi
+fi
+
+exit 0
+
+
+
+#vi: set ts=4 sw=4 et ft=sh:
