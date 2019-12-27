@@ -37,7 +37,7 @@ Options:
     This script will attempt to fix any issues it finds.
 
   -t
-    Consider a title that don't match the recommended title as an issue.
+    Consider a title that doesn't match the recommended title as an issue.
 
   -b <bts-prefix>
     This allows you to specify a prefix to prepend to the title of "Behind the
