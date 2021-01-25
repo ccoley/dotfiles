@@ -49,6 +49,7 @@ set modelines=5         " The number of lines to check for :set commands
 
 " Use solarized colorscheme
 set background=dark
+let g:solarized_termcolors=256
 colorscheme solarized
 
 
