@@ -300,7 +300,7 @@ elseif g:solarized_termcolors != 256 && &t_Co >= 16
     let s:green       = "2"
 elseif g:solarized_termcolors == 256
     let s:vmode       = "cterm"
-    let s:base03      = "234"
+    let s:base03      = "232"
     let s:base02      = "235"
     let s:base01      = "239"
     let s:base00      = "240"
