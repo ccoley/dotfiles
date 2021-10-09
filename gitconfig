@@ -30,6 +30,7 @@
     stat = status
     sti = status --ignored
     unstage = reset HEAD --
+    fs = !git fetch && git status
 [diff "ansible-vault"]
     textconv = PAGER=cat ansible-vault view
     cachetextconv = false
