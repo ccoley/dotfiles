@@ -51,4 +51,8 @@ REVERSE %C(reverse magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
 
+; Include additional config files
+[include]
+    path = ~/.gitconfig.local
+
 ; vi: set ts=4 sw=4 et ft=gitconfig:
