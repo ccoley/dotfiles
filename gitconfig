@@ -1,5 +1,3 @@
-; vi: set ts=4 sw=4 et ft=gitconfig:
-
 [core]
     #autocrlf = true  # Windows
     autocrlf = input # Linux
@@ -17,21 +15,33 @@
     compactionHeuristic = true
     algorithm = histogram
 [alias]
-    ahead = show --name-status @{u}..HEAD
+    ; helpers
     alias = config --get-regexp ^alias\\.
+    colors = log -1 HEAD --color --pretty=format:' \
+Plain   %C(magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)%n \
+BOLD    %C(bold magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)%n \
+DIM     %C(dim magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)%n \
+UL      %C(ul magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)%n \
+STRIKE  %C(strike magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)%n \
+BLINK   %C(blink magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)%n \
+REVERSE %C(reverse magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)'
+
+    ; 'git log' aliases
+    ll = log --stat --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
+    lg = log --color --graph --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
+    lga = log --all --color --graph --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
+
+    ; everything else
+    ahead = show --name-status @{u}..HEAD
     behind = show --name-status HEAD..@{u}
     changed = show --name-status
-    colors = log -1 HEAD --color --pretty=format:'Plain   %C(magenta)magenta%Creset %C(red)red%Creset %C(yellow)yellow%Creset %C(green)green%Creset %C(cyan)cyan%Creset %C(blue)blue%Creset %C(black)black%Creset %C(white)white%Creset %C(normal)normal%Creset %nBOLD    %C(bold magenta)magenta%Creset %C(bold red)red%Creset %C(bold yellow)yellow%Creset %C(bold green)green%Creset %C(bold cyan)cyan%Creset %C(bold blue)blue%Creset %C(bold black)black%Creset %C(bold white)white%Creset %C(bold normal)normal%Creset %nDIM     %C(dim magenta)magenta%Creset %C(dim red)red%Creset %C(dim yellow)yellow%Creset %C(dim green)green%Creset %C(dim cyan)cyan%Creset %C(dim blue)blue%Creset %C(dim black)black%Creset %C(dim white)white%Creset %C(dim normal)normal%Creset %nUL      %C(ul magenta)magenta%Creset %C(ul red)red%Creset %C(ul yellow)yellow%Creset %C(ul green)green%Creset %C(ul cyan)cyan%Creset %C(ul blue)blue%Creset %C(ul black)black%Creset %C(ul white)white%Creset %C(ul normal)normal%Creset %nBLINK   %C(blink magenta)magenta%Creset %C(blink red)red%Creset %C(blink yellow)yellow%Creset %C(blink green)green%Creset %C(blink cyan)cyan%Creset %C(blink blue)blue%Creset %C(blink black)black%Creset %C(blink white)white%Creset %C(blink normal)normal%Creset %nREVERSE %C(reverse magenta)magenta%Creset %C(reverse red)red%Creset %C(reverse yellow)yellow%Creset %C(reverse green)green%Creset %C(reverse cyan)cyan%Creset %C(reverse blue)blue%Creset %C(reverse black)black%Creset %C(reverse white)white%Creset %C(reverse normal)normal%Creset %n'
+    fs = !git fetch && git status
     last = show --name-status HEAD
-    ll = log --pretty=format:'%C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]' --decorate --numstat
-    lg = log --color --graph --date=short --abbrev-commit --pretty=format:'%C(red)%h%Creset - %C(green)%cd%Creset |%C(auto)%d%Creset %s %C(yellow)<%an>%Creset'
-    lga = log --all --color --graph --date=short --abbrev-commit --pretty=format:'%C(red)%h%Creset - %C(green)%cd%Creset |%C(auto)%d%Creset %s %C(yellow)<%an>%Creset'
+    pf = pull --ff-only
     st = status
     stat = status
     sti = status --ignored
     unstage = reset HEAD --
-    fs = !git fetch && git status
-    pf = pull --ff-only
 [diff "ansible-vault"]
     textconv = PAGER=cat ansible-vault view
     cachetextconv = false
@@ -40,3 +50,5 @@
     required = true
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
+
+; vi: set ts=4 sw=4 et ft=gitconfig:
