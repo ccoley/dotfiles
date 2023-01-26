@@ -15,7 +15,7 @@
     log = 50
 [diff]
     compactionHeuristic = true
-    algorithm = patience
+    algorithm = histogram
 [alias]
     ahead = show --name-status @{u}..HEAD
     alias = config --get-regexp ^alias\\.
