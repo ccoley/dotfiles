@@ -1,10 +1,11 @@
-To use this repository, you need to clone the repo into your home directory. Then `cd` into the cloned repo and run the install script.
+To use this repository, you need to clone the repo and run the install script. I recommend cloning the repo into your home directory, but it should work from any directory.
 
 ```bash
-cd ~
-git clone https://git.codingallnight.com/chris/dotfiles.git [directory-name]
-cd <directory-name>
-./install.sh
+# Clone the repo
+git clone https://git.codingallnight.com/chris/dotfiles.git
+
+# Run the install script
+dotfiles/install
 ```
 
 The install script will take any pre-existing dotfiles that would be overwritten by the installation process and rename them by appending `.old` to the end of the filename. For example, your `.bashrc` file will be renamed to `.bashrc.old`. Then, the script creates symlinks in your home directory that point to files in the cloned repository.
