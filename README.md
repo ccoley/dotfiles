@@ -4,6 +4,7 @@
 - [Updating](#updating)
 - [Customizing Your Bash Shell](#customizing-your-bash-shell)
 - [Git Configuration Overrides](#git-configuration-overrides)
+- [Git Commit Signing](#git-commit-signing)
 - [Miscellaneous Stuff](#miscellaneous-stuff)
 
 ## Installation
@@ -33,6 +34,31 @@ If you want to customize the **.bashrc** file, you can add a file to your home d
 ## Git Configuration Overrides
 
 You can customize the **.gitconfig** by creating a **.gitconfig.local** file in your home directory. It will be automatically included at the end of the **.gitconfig** file and will override any settings in that file. You can even include more configuration files from your **.gitconfig.local** file to support more advanced configurations or conditional includes. See the example in the [**gitconfig.local.example**](gitconfig.local.example) file in this repo.
+
+## Git Commit Signing
+
+> This requires Git v2.34.0 or newer and OpenSSH v8.0 or newer, excluding OpenSSH v8.7 which is broken.
+
+This repo contains default git configuration for signing commits with the default ED25519 SSH key. This configuration is not in the main **.gitconfig** file though, because it would break Git on unsupported versions or if referenced files did not exist. Instead, it exists in the [**gitconfig.local.example**](gitconfig.local.example).
+
+To use it, copy the example config file to your home directory and modify it as needed:
+
+```bash
+cp dotfiles/gitconfig.local.example ~/.gitconfig.local
+```
+
+The SSH key used for signing is defined by `user.signingKey`. This must point to an ED25519 or RSA private key.
+
+The SSH allowed signers file is defined by `gpg.ssh.allowedSignersFile`. This is highly recommended so that you can verify signed commits.
+
+You can create an allowed signers file with the correct email address and key using this command:
+
+```bash
+# Replace <signing-key>.pub with the public key matching your private key in user.signingKey
+echo "$(git config --get user.email) namespaces=\"git\" $(cat ~/.ssh/<signing-key>.pub)" >> ~/.ssh/allowed_signers
+```
+
+You can now use the `--show-signature` flag to view the signature status of commits in several commands, like `git log --show-signature` or `git show --show-signature`.
 
 ## Miscellaneous Stuff
 
