@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Get the base directory relative to the home directory
+BASEDIR="$(realpath --relative-to=${HOME} "$(dirname ${BASH_SOURCE[0]})")"
+
+
+# Bash
+[[ -h ~/.bashrc ]] && { rm ~/.bashrc; } || { mv ~/.bashrc{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/bashrc ~/.bashrc
+[[ -h ~/.bash_aliases ]] && { rm ~/.bash_aliases; } || { mv ~/.bash_aliases{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/bash_aliases ~/.bash_aliases
+
+
+# Vim
+[[ -h ~/.vimrc ]] && { rm ~/.vimrc; } || { mv ~/.vimrc{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/vimrc ~/.vimrc
+[[ -h ~/.vim ]] && { rm ~/.vim; } || { mv ~/.vim{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/vim ~/.vim
+
+
+# dircolors
+[[ -h ~/.dircolors ]] && { rm ~/.dircolors; } || { mv ~/.dircolors{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/dircolors.ansi-dark ~/.dircolors
+
+
+# Git
+[[ -h ~/.gitconfig ]] && { rm ~/.gitconfig; } || { mv ~/.gitconfig{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/gitconfig ~/.gitconfig
+[[ -h ~/.git-completion.bash ]] && { rm ~/.git-completion.bash; } || { mv ~/.git-completion.bash{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/git-completion.bash ~/.git-completion.bash
+[[ -h ~/.git-prompt.sh ]] && { rm ~/.git-prompt.sh; } || { mv ~/.git-prompt.sh{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/git-prompt.sh ~/.git-prompt.sh
+
+
+# PostgreSQL
+[[ -h ~/.psqlrc ]] && { rm ~/.psqlrc; } || { mv ~/.psqlrc{,.old} 2> /dev/null; }
+ln -s ${BASEDIR}/psqlrc ~/.psqlrc
+
+
+#vi: set ts=4 sw=4 et ft=sh:
