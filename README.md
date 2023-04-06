@@ -58,6 +58,8 @@ You can create an allowed signers file with the correct email address and key us
 echo "$(git config --get user.email) namespaces=\"git\" $(cat ~/.ssh/<signing-key>.pub)" >> ~/.ssh/allowed_signers
 ```
 
+If you have multiple SSH keys that are used to sign your commits, for example if you work on multiple computers with different keys, then you probably want to add all your SSH public keys used to sign commits to this allowed signers file. Otherwise you'll see signature errors when viewing commit signatures. You can add signing keys from other people as well to verify their commit signatures.
+
 You can now use the `--show-signature` flag to view the signature status of commits in several commands, like `git log --show-signature` or `git show --show-signature`.
 
 ## Miscellaneous Stuff
