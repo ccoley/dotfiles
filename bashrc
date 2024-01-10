@@ -87,6 +87,12 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# Enable color support on Mac
+if [ "$(uname)" == "Darwin" ] && [ -x /usr/local/bin/dircolors ]; then
+    export CLICOLOR=1
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
