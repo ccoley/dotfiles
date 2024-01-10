@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Get the base directory relative to the home directory
-BASEDIR="$(realpath --relative-to=${HOME} "$(dirname ${BASH_SOURCE[0]})")"
+BASEDIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+BASEDIR="${BASEDIR#"$(realpath "$HOME")/"}"
 
 
 # Bash
