@@ -5,16 +5,16 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# don't put duplicate lines in the history. See bash(1) for more options
-# ... or force ignoredups and ignorespace
+# Exclude consecutive duplicate lines and lines beginning with a space from the
+# history. See bash(1) for more options.
 HISTCONTROL=ignoredups:ignorespace
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=2000
-HISTFILESIZE=2000
+HISTFILESIZE=10000 # size of .bash_history file, 10k lines is ~256KB
+HISTSIZE=10000 # size of in-memory history
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
