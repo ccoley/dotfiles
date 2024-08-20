@@ -1,6 +1,8 @@
 ; Commit Signing
 [commit]
     gpgSign = true
+[tag]
+    gpgSign = true
 [gpg]
     format = ssh
 [gpg "ssh"]
