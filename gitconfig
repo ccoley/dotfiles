@@ -27,6 +27,7 @@ BLINK   %C(blink magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(c
 REVERSE %C(reverse magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)'
 
     ; 'git log' aliases
+    ld = log --color --pretty=format:'%C(auto)%h %C(red)%aI %C(cyan)%cI %C(green)%G?%C(reset) %s'
     ll = log --stat --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
     lg = log --color --graph --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
     lga = log --all --color --graph --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
