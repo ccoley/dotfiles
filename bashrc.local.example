@@ -1,63 +1,109 @@
+# vi: set ts=4 sw=4 et ft=sh:
+
+
+################################################################################
+### Git Stuff
+################################################################################
+
 # Enable Git auto completion
-if [ -f ~/.git-completion.bash ]; then
+if [ -s ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
 # Enable Git prompt
 # This may cause slowdown on filesystems with slow IO
+# {<branch> [dirty][stash][untracked][upstream]}
+#   <branch>: name of checked out branch
+#   [dirty]: '*' for unstaged changes, '+' for staged changes, or both
+#   [stash]: '$' if anything is stashed
+#   [untracked]: '%' is there are untracked files
+#   [upstream]: status of local relative to upstream; '=' local matches,
+#               '<' local is behind, '>' local is ahead, '<>' local has diverged
 if [ -f ~/.git-prompt.sh ]; then
-#    GIT_PS1_SHOWDIRTYSTATE=yes      # Medium Performance Hit
-#    GIT_PS1_SHOWSTASHSTATE=yes
-#    GIT_PS1_SHOWUNTRACKEDFILES=yes  # Large Performance Hit
-#    GIT_PS1_SHOWUPSTREAM='auto'     # Very Small Performance Hit
+    GIT_PS1_SHOWDIRTYSTATE=yes      # medium performance hit
+    GIT_PS1_SHOWSTASHSTATE=yes      # very small performance hit
+    GIT_PS1_SHOWUNTRACKEDFILES=yes  # large performance hit
+    GIT_PS1_SHOWUPSTREAM='auto'     # very small performance hit
     GIT_PS1_SHOWCOLORHINTS=yes
-    source ~/.git-prompt.sh
+    . ~/.git-prompt.sh
 fi
 
-if [ -z ${PS1_PRE+x} ] && [ -z ${PS1_POST+x} ]; then
-    PS1_PRE='${debian_chroot:+($debian_chroot)}\u@\h:\[\033[34m\][\w]\[\033[0m\]'
-    PS1_POST=' \$ '
+
+
+################################################################################
+### NVM Stuff
+################################################################################
+
+# Set NVM_DIR if .nvm directory exists
+if [ -d "$HOME/.nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+fi
+# Load NVM if it exists
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    . "$NVM_DIR/nvm.sh"
+fi
+# Load NVM Bash completion if it exists
+if [ -s "$NVM_DIR/bash_completion" ]; then
+    . "$NVM_DIR/bash_completion"
 fi
 
-PROMPT_COMMAND='__git_ps1 "$PS1_PRE" "$PS1_POST" " {%s}"'
 
-if [ -d $HOME/.virtualenvs ] && [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    # If virtualenv was installed with python3, then we can assume that
-    # virtualenvwrapper should be using python3 as well.
-    if [ -x "$(command -v python3)" ]; then
-        python3_version=$(python3 --version | sed -n 's/Python \([0-9]\.[0-9]\).*/\1/p')
-        if [ -f /usr/local/lib/python${python3_version}/dist-packages/virtualenv.py ]; then
-            export VIRTUALENVWRAPPER_PYTHON="$(command -v python3)"
-        fi
+
+################################################################################
+### Python Virtual Environment Stuff
+################################################################################
+
+# Command to activate virtual environment if one exists
+alias _activate='echo "activate(): Activate Python virtual environment in current working directory"'
+activate () {
+    if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
+		cat <<- EOF
+		Usage: activate [-h|--help]
+		Activates a Python virtual environment in .venv or venv subdirectory of working
+		directory if one exists
+		EOF
+        return 0
     fi
 
-    # VirtualEnv Wrapper
-    export WORKON_HOME=$HOME/.virtualenvs
-    source /usr/local/bin/virtualenvwrapper.sh
+    if [ -f .venv/bin/activate ]; then
+        . .venv/bin/activate
+    elif [ -f venv/bin/activate ]; then
+        . venv/bin/activate
+    fi
+}
 
-    # AutoENV
-    #AUTOENV_ENV_FILENAME=.autoenv
-    #source ~/.autoenv/activate.sh
+# Format virtual environment name for inserting into the shell prompt
+add_venv_info () {
+    if [ -n "$VIRTUAL_ENV" ] && [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ]; then
+        # Strip trailing space from prompt
+        VIRT_ENV_TXT="${VIRTUAL_ENV_PROMPT%[[:space:]]}"
 
-    # Override prompt to include virtualenv name and git branch name
-    add_venv_info () {
-        if [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ] ; then
-            VIRT_ENV_TXT=""
-            if [ "x" != x ] ; then
-                VIRT_ENV_TXT=""
-            else
-                if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
-                    # special case for Aspen magic directories
-                    # see http://www.zetadev.com/software/aspen/
-                    VIRT_ENV_TXT="[`basename \`dirname \"$VIRTUAL_ENV\"\``]"
-                elif [ "$VIRTUAL_ENV" != "" ]; then
-                    VIRT_ENV_TXT="(`basename \"$VIRTUAL_ENV\"`)"
-                fi
-            fi
-            if [ "${VIRT_ENV_TXT}" != "" ]; then
-                echo " ${VIRT_ENV_TXT}"
-            fi
+        # If prompt is default value, change it to the name of the virtual
+        # environment's parent directory
+        if ([ "$VIRT_ENV_TXT" = "(.venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = ".venv" ]) \
+            || ([ "$VIRT_ENV_TXT" = "(venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = "venv" ])
+        then
+            VIRT_ENV_TXT="($(basename $(dirname "$VIRTUAL_ENV")))"
         fi
-    }
-    PROMPT_COMMAND='__git_ps1 "$PS1_PRE$(add_venv_info)" "$PS1_POST" " {%s}"'
+
+        if [ -n "$VIRT_ENV_TXT" ]; then
+            echo " $VIRT_ENV_TXT"
+        fi
+    fi
+}
+
+
+
+################################################################################
+### Finalize the prompt
+################################################################################
+
+# Only add Python virtual environment name into prompt if function exists
+if [ "$(type -t add_venv_info)" = 'function' ]; then
+    PROMPT_COMMAND='__git_ps1 "$PS1_PRE" "$(add_venv_info)$PS1_POST" " {%s}"'
+else
+    PROMPT_COMMAND='__git_ps1 "$PS1_PRE" "$PS1_POST" " {%s}"'
 fi
+
+
+

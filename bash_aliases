@@ -1,6 +1,8 @@
-#################
-#    Aliases    #
-#################
+# vi: set ts=4 sw=4 et ft=sh:
+
+################################################################################
+### Simple Aliases
+################################################################################
 
 # some ls aliases
 alias l='ls -CF'
@@ -57,14 +59,15 @@ alias free='free -ht'
 # Find VIM swap files. Pass the -delete flag to delete them
 alias swp='find . -type f -name ".*.sw?"'
 
-###################
-#    Functions    #
-###################
+################################################################################
+### Functions
+################################################################################
+
 
 # Basic benchmark with cURL
 alias _curl_time='echo "curl_time(): Show timing info for a cURL request"'
-function curl_time {
-    curl -s -o /dev/null -w "\
+curl_time () {
+    curl -sS -o /dev/null -w "\
    namelookup:  %{time_namelookup}s\n\
       connect:  %{time_connect}s\n\
    appconnect:  %{time_appconnect}s\n\
@@ -77,19 +80,19 @@ starttransfer:  %{time_starttransfer}s\n\
 
 # Count the number of files in a directory and its sub-directories
 alias _count='echo "count(): Count the number of files in a directory and its sub-directories"'
-function count {
+count () {
     find $1 -type f | wc -l
 }
 
 # Show a histogram output of commands in history
-alias _hist='echo "hist(): Show a histogram output of commands in history"'
-function hist {
+alias _histogram='echo "hist(): Show a histogram output of commands in history"'
+histogram () {
     history | awk '{if ($2 == "sudo") {print $2,$3} else {print $2}}' | sort -n | uniq -c | sort -nr | head -n20
 }
 
 # Make a directory, then cd into it
 alias _mcd='echo "mcd(): Make a directory, then cd into it"'
-function mcd {
+mcd () {
     mkdir -pv $1
     cd $1
     pwd
@@ -97,7 +100,7 @@ function mcd {
 
 # Print a color chart
 alias _color='echo "color(): Print a color chart"'
-function color {
+color () {
     # Background Color
     for clbg in {40..47} {100..107} ; do
         # Foreground Color
@@ -124,7 +127,7 @@ function color {
 # Accepts a title's "Rating Key" also know as "Metadata Key", or a string to
 # match against the title. The string must be quoted if it's multiple words.
 alias _plex-search='Search for Plex media by ID or title. Requires SUDO'
-function plex-search {
+plex-search () {
     dbString='file:///var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db?mode=ro'
     if [[ $1 =~ ^[0-9]+$ ]]; then
         # Return an exact match by metadata_items.id
