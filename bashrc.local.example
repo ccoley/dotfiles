@@ -74,20 +74,24 @@ activate () {
 
 # Format virtual environment name for inserting into the shell prompt
 add_venv_info () {
+    local venv_color="\[\033[35m\]" # purple
+    local reset_color="\[\033[0m\]"
+
     if [ -n "$VIRTUAL_ENV" ] && [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ]; then
         # Strip trailing space from prompt
-        VIRT_ENV_TXT="${VIRTUAL_ENV_PROMPT%[[:space:]]}"
+        local prompt="${VIRTUAL_ENV_PROMPT%[[:space:]]}"
 
         # If prompt is default value, change it to the name of the virtual
         # environment's parent directory
-        if ([ "$VIRT_ENV_TXT" = "(.venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = ".venv" ]) \
-            || ([ "$VIRT_ENV_TXT" = "(venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = "venv" ])
+        if ([ "$prompt" = "(.venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = ".venv" ]) \
+            || ([ "$prompt" = "(venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = "venv" ])
         then
-            VIRT_ENV_TXT="($(basename $(dirname "$VIRTUAL_ENV")))"
+            #prompt="($(basename $(dirname "$VIRTUAL_ENV")))"
+            prompt="$venv_color($(basename $(dirname "$VIRTUAL_ENV")))$reset_color"
         fi
 
-        if [ -n "$VIRT_ENV_TXT" ]; then
-            echo " $VIRT_ENV_TXT"
+        if [ -n "$prompt" ]; then
+            echo "$prompt"
         fi
     fi
 }
@@ -98,11 +102,51 @@ add_venv_info () {
 ### Finalize the prompt
 ################################################################################
 
-# Only add Python virtual environment name into prompt if function exists
-if [ "$(type -t add_venv_info)" = 'function' ]; then
-    PROMPT_COMMAND='__git_ps1 "$PS1_PRE" "$(add_venv_info)$PS1_POST" " {%s}"'
+# Build the beginning of the prompt
+__ps1_pre () {
+    local reset_color="\[\033[0m\]"
+    local pwd_color="\[\033[34m\]" # blue
+    local screen_color="\[\033[01;33m\]" # gold
+
+    # Make pwd red for root user
+    if [ "$(id -u)" -eq 0 ]; then
+        pwd_color="\[\033[31m\]" #red
+    fi
+
+    # Add screen name to prompt if this is a screen session
+    if [ -n "$STY" ]; then
+        screen_txt="$screen_color(${STY#[0-9]*\.}:$WINDOW)$reset_color "
+    fi
+
+    # Add chroot name to prompt if in chroot
+    if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+        debian_chroot=$(cat /etc/debian_chroot)
+    fi
+    local chroot_txt="${debian_chroot:+($debian_chroot) }"
+
+    echo "$chroot_txt$screen_txt\u@\h:$pwd_color[\w]$reset_color"
+}
+
+# Build the end of the prompt
+__ps1_post () {
+    local ps1_post=" \\$ "
+
+    # Only add Python virtual environment name to prompt if function exists
+    if [ "$(type -t add_venv_info)" = 'function' ]; then
+        ps1_post=" $(add_venv_info) \\$ "
+
+        # Replace '  ' with ''  in case add_venv_info returns nothing
+        ps1_post="${ps1_post/#  / }"
+    fi
+
+    echo "$ps1_post"
+}
+
+# Use __git_ps1 to construct the prompt if it exists
+if [ "$(type -t __git_ps1)" = 'function' ]; then
+    PROMPT_COMMAND='__git_ps1 "$(__ps1_pre)" "$(__ps1_post)" " {%s}"'
 else
-    PROMPT_COMMAND='__git_ps1 "$PS1_PRE" "$PS1_POST" " {%s}"'
+    PS1="$(__ps1_pre)$(__ps1_post)"
 fi
 
 
