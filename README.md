@@ -3,6 +3,7 @@
 - [Installation](#installation)
 - [Updating](#updating)
 - [Customizing Your Bash Shell](#customizing-your-bash-shell)
+- [Tutorial Mode Prompt](#tutorial-mode-prompt)
 - [Git Configuration Overrides](#git-configuration-overrides)
 - [Git Commit Signing](#git-commit-signing)
 - [Miscellaneous Stuff](#miscellaneous-stuff)
@@ -30,6 +31,15 @@ To update your dotfiles, all you have to do is pull the latest revision of the r
 ## Customizing Your Bash Shell
 
 If you want to customize the **.bashrc** file, you can add a file to your home directory called **.bashrc.local** and the **.bashrc** file will automatically source it. See the [**bashrc.local.example**](bashrc.local.example) file in this repo for an example.
+
+## Tutorial Mode Prompt
+
+The **.bashrc.local** file in this repo heavily customizes the prompt. To temporarily reset the prompt to a simple prompt without any identifying information, set the `TUTORIAL_MODE` environment variable to any non-empty value and then start a new `bash` shell session. You can do this in one line like this:
+
+```bash
+chris@Chris-Inspiron:[~/dotfiles] {master *+%=} $ TUTORIAL_MODE=1 bash
+[~/dotfiles] $
+```
 
 ## Git Configuration Overrides
 

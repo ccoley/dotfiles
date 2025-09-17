@@ -108,9 +108,19 @@ __ps1_pre () {
     local pwd_color="\[\033[34m\]" # blue
     local screen_color="\[\033[01;33m\]" # gold
 
+    local host_txt="\u@\h"
+
     # Make pwd red for root user
     if [ "$(id -u)" -eq 0 ]; then
         pwd_color="\[\033[31m\]" #red
+    fi
+
+    local pwd_txt="$pwd_color[\w]$reset_color"
+
+    # Return just the PWD prompt if in tutorial mode
+    if [ -n "$TUTORIAL_MODE" ]; then
+        echo "$pwd_txt"
+        return 0
     fi
 
     # Add screen name to prompt if this is a screen session
@@ -124,12 +134,18 @@ __ps1_pre () {
     fi
     local chroot_txt="${debian_chroot:+($debian_chroot) }"
 
-    echo "$chroot_txt$screen_txt\u@\h:$pwd_color[\w]$reset_color"
+    echo "$chroot_txt$screen_txt$host_txt:$pwd_txt"
 }
 
 # Build the end of the prompt
 __ps1_post () {
     local ps1_post=" \\$ "
+
+    # Return just the $|# prompt if in tutorial mode
+    if [ -n "$TUTORIAL_MODE" ]; then
+        echo "$ps1_post"
+        return 0
+    fi
 
     # Only add Python virtual environment name to prompt if function exists
     if [ "$(type -t add_venv_info)" = 'function' ]; then
@@ -143,7 +159,7 @@ __ps1_post () {
 }
 
 # Use __git_ps1 to construct the prompt if it exists
-if [ "$(type -t __git_ps1)" = 'function' ]; then
+if [ "$(type -t __git_ps1)" = 'function' ] && [ -z "$TUTORIAL_MODE" ]; then
     PROMPT_COMMAND='__git_ps1 "$(__ps1_pre)" "$(__ps1_post)" " {%s}"'
 else
     PS1="$(__ps1_pre)$(__ps1_post)"
