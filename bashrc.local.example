@@ -81,12 +81,15 @@ add_venv_info () {
         # Strip trailing space from prompt
         local prompt="${VIRTUAL_ENV_PROMPT%[[:space:]]}"
 
+        # Strip leading and trailing parentheses from prompt
+        prompt="${prompt#(}"
+        prompt="${prompt%(}"
+
         # If prompt is default value, change it to the name of the virtual
         # environment's parent directory
-        if ([ "$prompt" = "(.venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = ".venv" ]) \
-            || ([ "$prompt" = "(venv)" ] && [ "$(basename "$VIRTUAL_ENV")" = "venv" ])
+        if ([ "$prompt" = ".venv" ] && [ "$(basename "$VIRTUAL_ENV")" = ".venv" ]) \
+            || ([ "$prompt" = "venv" ] && [ "$(basename "$VIRTUAL_ENV")" = "venv" ])
         then
-            #prompt="($(basename $(dirname "$VIRTUAL_ENV")))"
             prompt="$venv_color($(basename $(dirname "$VIRTUAL_ENV")))$reset_color"
         fi
 
