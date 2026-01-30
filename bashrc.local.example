@@ -83,7 +83,7 @@ add_venv_info () {
 
         # Strip leading and trailing parentheses from prompt
         prompt="${prompt#(}"
-        prompt="${prompt%(}"
+        prompt="${prompt%)}"
 
         # If prompt is default value, change it to the name of the virtual
         # environment's parent directory

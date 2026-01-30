@@ -8,7 +8,8 @@
 alias l='ls -CF'
 alias ll='ls -alF'
 alias la='ls -A'
-alias lh='ls -alFh'
+alias lh='ls -alFh'  # human readable sizes
+alias lv='ls -alFhv' # natural sort file names
 
 # Easier navigation
 alias ..='cd ..'
