@@ -1,3 +1,7 @@
+; Define user.email here so it doesn't get committed to the repo accidentally
+[user]
+;    email = # uncomment and fill this in
+
 ; Commit Signing
 [commit]
     gpgSign = true

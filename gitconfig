@@ -4,7 +4,8 @@
     editor = vim
 [user]
     name = "Chris Coley"
-
+    ; Throw a fatal error when email isn't set as a reminder to set it
+    useConfigOnly = true
 [credential]
     helper = cache --timeout=43200
 [push]

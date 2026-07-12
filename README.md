@@ -45,6 +45,12 @@ chris@Chris-Inspiron:[~/dotfiles] {master *+%=} $ TUTORIAL_MODE=1 bash
 
 You can customize the **.gitconfig** by creating a **.gitconfig.local** file in your home directory. It will be automatically included at the end of the **.gitconfig** file and will override any settings in that file. You can even include more configuration files from your **.gitconfig.local** file to support more advanced configurations or conditional includes. See the example in the [**gitconfig.local.example**](gitconfig.local.example) file in this repo.
 
+You'll need to set your `user.email` for Git in this local configuration file, so copy the example file and then set it in the new file.
+
+```bash
+cp dotfiles/gitconfig.local.example ~/.gitconfig.local
+```
+
 ## Git Commit Signing
 
 > This requires Git v2.34.0 or newer and OpenSSH v8.0 or newer, excluding OpenSSH v8.7 which is broken.
