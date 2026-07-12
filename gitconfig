@@ -1,20 +1,5 @@
-[core]
-    #autocrlf = true  # Windows
-    autocrlf = input # Linux
-    editor = vim
-[user]
-    name = "Chris Coley"
-    ; Throw a fatal error when email isn't set as a reminder to set it
-    useConfigOnly = true
-[credential]
-    helper = cache --timeout=43200
-[push]
-    default = simple
-[merge]
-    log = 50
-[diff]
-    compactionHeuristic = true
-    algorithm = histogram
+; vi: set ts=4 sw=4 et ft=gitconfig:
+
 [alias]
     ; helpers
     alias = config --get-regexp ^alias\\.
@@ -28,33 +13,58 @@ BLINK   %C(blink magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(c
 REVERSE %C(reverse magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)'
 
     ; 'git log' aliases
-    ld = log --color --pretty=format:'%C(auto)%h %C(red)%aI %C(cyan)%cI %C(green)%G?%C(reset) %s'
-    ll = log --stat --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
-    lg = log --color --graph --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
-    lga = log --all --color --graph --pretty=format:'%C(auto)%h %C(blue bold)%cs%C(auto)%d %s %C(yellow bold)<%an> %C(cyan bold)%G?%C(reset)'
+    ld =  log               --format='%C(auto)%h %C(blue)%cI %C(magenta)%aI %C(cyan)%G?%C(reset) %s'
+    ll =  log --name-status --format='%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
+    lo =  log               --format='%C(auto)%h %C(cyan)%G?%C(auto)%d %s'
+    lg =  log --graph       --format='%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
+    lga = log --graph --all --format='%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
 
-    ; everything else
+    ; 'git show' aliases
     ahead = show --name-status @{u}..HEAD
     behind = show --name-status HEAD..@{u}
     changed = show --name-status
-    fs = !git fetch && git status
     last = show --name-status HEAD
+
+    ; everything else
+    fs = !git fetch && git status
     pf = pull --ff-only
     st = status
     stat = status
     sti = status --ignored
     unstage = reset HEAD --
+
+[core]
+    #autocrlf = true  # Windows
+    autocrlf = input # Linux
+    editor = vim
+[credential]
+    helper = cache --timeout=43200
+
+[diff]
+    algorithm = histogram
+    colorMoved = default
 [diff "ansible-vault"]
     textconv = PAGER=cat ansible-vault view
     cachetextconv = false
+
 [filter "lfs"]
     process = git-lfs filter-process
     required = true
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
 
+[init]
+    defaultBranch = main
+[merge]
+    log = 100
+[push]
+    default = simple
+[user]
+    name = "Chris Coley"
+    ; Throw a fatal error when email isn't set as a reminder to set it
+    useConfigOnly = true
+
 ; Include additional config files
 [include]
     path = ~/.gitconfig.local
 
-; vi: set ts=4 sw=4 et ft=gitconfig:

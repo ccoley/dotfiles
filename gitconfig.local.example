@@ -14,12 +14,8 @@
 [user]
     signingKey = ~/.ssh/id_ed25519
 
-; Include work config first
-[includeIf "gitdir:~/projects/"]
-    path = ~/.gitconfig.local.work
-
-; Then include "me" config again since it's a subdirectory
-[includeIf "gitdir:~/projects/_me/"]
-    path = ~/.gitconfig.local.me
+; Include per-directory configuration
+;[includeIf "gitdir:~/projects/work/"]
+;    path = ~/.gitconfig.local.work
 
 ; vi: set ts=4 sw=4 et ft=gitconfig:
