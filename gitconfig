@@ -12,25 +12,35 @@ STRIKE  %C(strike magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(
 BLINK   %C(blink magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)%n \
 REVERSE %C(reverse magenta)magenta %C(red)red %C(yellow)yellow %C(green)green %C(cyan)cyan %C(blue)blue %C(black)black %C(white)white %C(normal)normal%C(reset)'
 
-    ; 'git log' aliases
-    ld =  log               --format='%C(auto)%h %C(blue)%cI %C(magenta)%aI %C(cyan)%G?%C(reset) %s'
-    ll =  log --name-status --format='%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
-    lo =  log               --format='%C(auto)%h %C(cyan)%G?%C(auto)%d %s'
-    lg =  log --graph       --format='%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
-    lga = log --graph --all --format='%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
+    ; Simple oneline output with signature status added
+    lo =  log               --pretty='format:%C(auto)%h %C(cyan)%G?%C(auto)%d %s'
+    ; Show oneline output with commit date and author date
+    ld =  log               --pretty='format:%C(auto)%h %C(blue)%cI %C(magenta)%aI %C(cyan)%G?%C(reset) %s'
+    ; Show the name and status of added/removed/modified files
+    ls =  log --name-status --pretty='format:%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
+    ; Show the insertions and deletions of files
+    ll =  log --stat        --pretty='format:%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
+    ; Graph output, with and without all refs
+    lga = log --graph --all --pretty='format:%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
+    lg =  log --graph       --pretty='format:%C(auto)%h %C(blue)%cs %C(cyan)%G?%C(auto)%d %s %C(yellow)<%an>%C(reset)'
 
-    ; 'git show' aliases
-    ahead = show --name-status @{u}..HEAD
-    behind = show --name-status HEAD..@{u}
-    changed = show --name-status
-    last = show --name-status HEAD
+    ; Show insertions and deletions compared to upstream branch
+    ahead =   show --oneline --stat @{upstream}..HEAD
+    behind =  show --oneline --stat HEAD..@{upstream}
+    ; Show insertions and deletions for specific commits
+    changed = show           --stat
+    last =    show           --stat HEAD
+
+    ; Use word-based diff instead of line-based diff. Useful on files containing
+    ; prose, like READMEs and documentation
+    wdiff = diff --word-diff
 
     ; everything else
-    fs = !git fetch && git status
-    pf = pull --ff-only
     st = status
     stat = status
     sti = status --ignored
+    fs = !git fetch && git status
+    pf = pull --ff-only
     unstage = reset HEAD --
 
 [core]
