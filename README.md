@@ -67,11 +67,11 @@ The SSH key used for signing is defined by `user.signingKey`. This must point to
 
 The SSH allowed signers file is defined by `gpg.ssh.allowedSignersFile`. This is highly recommended so that you can verify signed commits.
 
-You can create an allowed signers file with the correct email address and key using this command:
+You can create an allowed signers file with the correct email address and keys using this command:
 
 ```bash
-# Replace <signing-key>.pub with the public key matching your private key in user.signingKey
-echo "$(git config --get user.email) namespaces=\"git\" $(cat ~/.ssh/<signing-key>.pub)" >> ~/.ssh/allowed_signers
+# Replace <email> in the gitallowedsigners file with the configured git email
+cat dotfiles/gitallowedsigners | sed "/^#/d; s/<email>/$(git config --get user.email)/" >> ~/.gitallowedsigners
 ```
 
 If you have multiple SSH keys that are used to sign your commits, for example if you work on multiple computers with different keys, then you probably want to add all your SSH public keys used to sign commits to this allowed signers file. Otherwise you'll see signature errors when viewing commit signatures. You can add signing keys from other people as well to verify their commit signatures.

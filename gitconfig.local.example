@@ -10,7 +10,7 @@
 [gpg]
     format = ssh
 [gpg "ssh"]
-    allowedSignersFile = ~/.ssh/allowed_signers
+    allowedSignersFile = ~/.gitallowedsigners
 [user]
     signingKey = ~/.ssh/id_ed25519
 
