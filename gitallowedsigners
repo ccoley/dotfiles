@@ -1,5 +1,16 @@
 # This file follows the format of the allowed_signers file used by ssh-keygen
 # https://www.man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS
+#
+# OpenSSH versions before 9.1 don't support UTC dates in validity dates, so git
+# will report "U" for a good signature with unknown validity. If you don't want
+# to see that, then adjust the timestamps for your timezone and remove the Z at
+# the end. To err on the side of safety, valid-after dates should be adjusted
+# forwards in time (e.g. add hours) and valid-before dates should be adjusted
+# backwards in time (e.g. subtract hours).
+# https://www.openssh.org/txt/release-9.1#:~:text=validity%20intervals
+#
+# You could also remove the valid-after key since it's not very useful anyways.
+#
 <email> namespaces="git",valid-after="20210922075331Z" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMtv12ZOgUEWIvsHftcPIDFzxlqrO1A9tBKp/5Tr+6Ik chris@chris-inspiron
 <email> namespaces="git",valid-after="20220306060345Z" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP8wdcwQcjtJ31rz4JY+0a43H/dQYismqX1KWs+G62lX chris@pb-ccoley-p1
 <email> namespaces="git",valid-after="20260708202106Z" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJSGv6m7oFSV+CFp44+pURnKyFKHz7PA0ORjgapIPGgx chris@chris-xps

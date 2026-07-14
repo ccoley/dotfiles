@@ -78,6 +78,8 @@ If you have multiple SSH keys that are used to sign your commits, for example if
 
 You can now use the `--show-signature` flag to view the signature status of commits in several commands, like `git log --show-signature` or `git show --show-signature`.
 
+> If you're using a version of OpenSSH before 9.1, then Git will report the signatures as good, but with unknown validity. This is because I've used UTC dates in my `gitallowedsigners` file and OpenSSH versions before 9.1 don't support that. You can manually convert the timestamps to your local timezone and remove the 'Z' at the end.
+
 ## Miscellaneous Stuff
 
 This repository also include several files/directories that are not installed and exist only for my convenience.
