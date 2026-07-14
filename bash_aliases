@@ -94,7 +94,7 @@ histogram () {
 # Make a directory, then cd into it
 alias _mcd='echo "mcd(): Make a directory, then cd into it"'
 mcd () {
-    mkdir -pv $1
+    command mkdir -pv $1
     cd $1
     pwd
 }
