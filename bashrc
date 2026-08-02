@@ -17,7 +17,11 @@ shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=10000 # size of in-memory history
-HISTFILESIZE=10000 # size of .bash_history file, 10k lines is ~256KB
+HISTFILESIZE=20000 # size of .bash_history file, 10k lines is ~256KB
+
+# Add a timestamp to each entry in history. This causes each command to count as
+# two lines in the history file, so adjust HISTFILESIZE accordingly
+HISTTIMEFORMAT='%Y-%m-%d %H:%M:%S  '
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -31,7 +35,7 @@ shopt -s globstar
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
@@ -84,7 +88,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# Enable color support on Mac
+# Enable color support on MacOS
 if [ "$(uname)" == "Darwin" ] && [ -x /usr/local/bin/dircolors ]; then
     export CLICOLOR=1
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -109,7 +113,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Enable local bashrc files to overwrite this file
+# Enable local bashrc files to extend and overwrite this file
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
 fi
