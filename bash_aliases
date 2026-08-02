@@ -26,12 +26,10 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 
 # Date/Time aliases
 alias now='date +%T'
-alias nowtime='now'
-alias nowdate='date +%m-%d-%Y'
 alias timezone='date +"%Z (GMT %:z)"'
-
-# Get week number
-alias week='date +%V'
+alias datestamp='date +"%Y-%m-%d-%H-%M-%S"'
+alias datestampz='date -u +"%Y-%m-%d-%H-%M-%SZ"'
+alias weeknum='date +%V'
 
 # IP address
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
