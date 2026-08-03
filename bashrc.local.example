@@ -6,8 +6,8 @@
 ################################################################################
 
 # Enable Git auto completion
-if [ -s ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
+if [ -s "$HOME/.git-completion.bash" ]; then
+    . "$HOME/.git-completion.bash"
 fi
 
 # Enable Git prompt
@@ -19,20 +19,49 @@ fi
 #   [untracked]: '%' is there are untracked files
 #   [upstream]: status of local relative to upstream; '=' local matches,
 #               '<' local is behind, '>' local is ahead, '<>' local has diverged
-if [ -f ~/.git-prompt.sh ]; then
+if [ -f "$HOME/.git-prompt.sh" ]; then
     GIT_PS1_SHOWDIRTYSTATE=yes      # medium performance hit
     GIT_PS1_SHOWSTASHSTATE=yes      # very small performance hit
     GIT_PS1_SHOWUNTRACKEDFILES=yes  # large performance hit
     GIT_PS1_SHOWUPSTREAM='auto'     # very small performance hit
     GIT_PS1_SHOWCOLORHINTS=yes
-    . ~/.git-prompt.sh
+    . "$HOME/.git-prompt.sh"
 fi
 
 
 
 ################################################################################
-### NVM Stuff
+### Dev Tools
 ################################################################################
+
+# Prevent UV install and self-upgrade from modifying shell profile
+export UV_NO_MODIFY_PATH=1
+
+# Add UV and UVX to PATH
+# Usually unnecessary because the install path is added to PATH in ~/.profile
+#if [ -s "$HOME/.local/bin/env" ]; then
+#    . "$HOME/.local/bin/env"
+#fi
+
+# Load UV and UVX Bash completion if they exist
+if [ -s "$HOME/.uv-completion.bash" ]; then
+    . "$HOME/.uv-completion.bash"
+fi
+if [ -s "$HOME/.uvx-completion.bash" ]; then
+    . "$HOME/.uvx-completion.bash"
+fi
+
+
+# Move GOPATH to ~/.local/go instead of the default ~/go
+export GOPATH="$HOME/.local/go"
+# Add GO to PATH
+if [ -d "/usr/local/go/bin" ] && [[ ! ":$PATH:" =~ ":/usr/local/go/bin:" ]]; then
+    export PATH="/usr/local/go/bin:$PATH"
+fi
+if [ -d "$GOPATH/bin" ] && [[ ! ":$PATH:" =~ ":$GOPATH/bin:" ]]; then
+    export PATH="$GOPATH/bin:$PATH"
+fi
+
 
 # Set NVM_DIR if .nvm directory exists
 if [ -d "$HOME/.nvm" ]; then
