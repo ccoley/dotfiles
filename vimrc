@@ -90,12 +90,31 @@ autocmd VimLeave * let &titleold = $USER . "@" . hostname() | setlocal title
 " By default, it formats the modeline as a line comment so it gets ignored by
 " anything that isn't Vim. You can override the commentstring by setting
 " b:ml_commentstring to something else.
-nnoremap <leader>ml :call AddModeline()<CR>
+nnoremap <silent> <leader>ml :call AddModeline()<CR>
 function! AddModeline()
     " Prefer b:ml_commentstring if it is set, otherwise use commentstring
     let l:commentstring = get(b:, 'ml_commentstring', &commentstring)
     let l:modeline = printf(l:commentstring, printf("vi: set ts=%d sw=%d %set %sft=%s:", &ts, &sw, &et ? '' : 'no', &wrap ? 'wrap ' : '', &ft))
     call append(0, l:modeline)
+endfunction
+
+
+" Remove trailing whitespace from all lines. Call with `<leader>ts`
+"
+" Uses a substitution to remove the trailing whitespace, and the 'e' silences
+" errors when the search pattern doesn't match any lines in the file. Calling
+" the substitution with 'keeppatterns' prevents the substitution from being
+" added to the search history, or modifying the existing substitute pattern or
+" string.
+"
+" Uses winsaveview() and winrestoreview() to restore the window view after the
+" substitution, since the substitution would scroll to the last replacement by
+" default.
+nnoremap <silent> <leader>ts :call RemoveTrailingWhitespace()<CR>
+function! RemoveTrailingWhitespace()
+    let l:view = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:view)
 endfunction
 
 
