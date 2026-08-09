@@ -49,9 +49,14 @@ set modelines=5         " The number of lines to check for :set commands
 
 " Use solarized colorscheme
 set background=dark
+" Reduce to 256 colors for compatibility with normal terminal color palettes
 let g:solarized_termcolors=256
+" Increase visibility of listchars (trailing whitespace, tabs, etc.)
 let g:solarized_visibility='high'
-colorscheme solarized
+"let g:solarized_underline=0
+"let g:solarized_bold=0
+"let g:solarized_italic=0
+colorscheme solarized_dark
 
 
 " Allow saving of files as sudo when I forget to start vim using sudo
@@ -69,7 +74,17 @@ nnoremap <silent> <F10> :set list!<CR>
 
 
 " Put a vertical ruler in columns 81 and 121. Toggle with <F9>
-highlight ColorColumn ctermbg=magenta
+set colorcolumn=81,121
+if get(g:, 'colors_name') ==? 'solarized_dark'
+    highlight ColorColumn ctermbg=232
+elseif get(g:, 'colors_name') ==? 'solarized_darker'
+    highlight ColorColumn ctermbg=233
+elseif get(g:, 'colors_name') ==? 'default'
+    highlight ColorColumn ctermbg=234
+else
+    highlight ColorColumn cterm=standout
+    set colorcolumn&
+endif
 nnoremap <silent> <F9> :call ToggleColorColumn()<CR>
 function! ToggleColorColumn()
     if &colorcolumn
